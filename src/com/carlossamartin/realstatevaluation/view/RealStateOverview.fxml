@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<?import java.util.ArrayList?>
+<AnchorPane prefHeight="500.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carlossamartin.realstatevaluation.view.RealStateOverviewController">
+   <children>
+      <SplitPane dividerPositions="0.12650602409638553" layoutY="1.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="808.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TextField fx:id="searchField" layoutX="89.0" layoutY="18.0" prefHeight="25.0" prefWidth="303.0" />
+                  <Button layoutX="420.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleSearch" text="Search" />
+                  <Label fx:id="formattedAddress" layoutX="545.0" layoutY="22.0" prefHeight="17.0" prefWidth="493.0" text="Address" />
+               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <HBox prefHeight="432.0" prefWidth="800.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Pane>
+                           <children>
+                              <GridPane layoutY="70.0" prefHeight="312.0" prefWidth="250.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="89.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="161.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="109.0" text="Property Code" />
+                                    <Label prefHeight="17.0" prefWidth="97.0" text="Price" GridPane.rowIndex="1" />
+                                    <Label text="Size" GridPane.rowIndex="2" />
+                                    <Label text="Rooms" GridPane.rowIndex="3" />
+                                    <Label text="Bathrooms" GridPane.rowIndex="4" />
+                                    <Label text="Address" GridPane.rowIndex="5" />
+                                    <Label text="url" GridPane.rowIndex="6" />
+                                    <Label fx:id="s00" text="Label" GridPane.columnIndex="1" />
+                                    <Label fx:id="s01" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label fx:id="s02" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="s03" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label fx:id="s04" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label fx:id="s05" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label fx:id="s06" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                     <fx:define>
+                                         <ArrayList fx:id="sample0">
+                                            <fx:reference source="s00" />
+                                             <fx:reference source="s01" />
+                                             <fx:reference source="s02" />
+                                             <fx:reference source="s03" />
+                                             <fx:reference source="s04" />
+                                             <fx:reference source="s05" />
+                                             <fx:reference source="s06" />
+                                             <!-- ... -->
+                                         </ArrayList>
+                                     </fx:define>
+                                 </children>
+                              </GridPane>
+                              <Label layoutX="116.0" layoutY="24.0" text="S1" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="10.0" layoutY="10.0">
+                           <children>
+                              <GridPane layoutY="70.0" prefHeight="312.0" prefWidth="250.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="89.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="161.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="109.0" text="Property Code" />
+                                    <Label prefHeight="17.0" prefWidth="97.0" text="Price" GridPane.rowIndex="1" />
+                                    <Label text="Size" GridPane.rowIndex="2" />
+                                    <Label text="Rooms" GridPane.rowIndex="3" />
+                                    <Label text="Bathrooms" GridPane.rowIndex="4" />
+                                    <Label text="Address" GridPane.rowIndex="5" />
+                                    <Label text="url" GridPane.rowIndex="6" />
+                                    <Label fx:id="s10" text="Label" GridPane.columnIndex="1" />
+                                    <Label fx:id="s11" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label fx:id="s12" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="s13" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label fx:id="s14" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label fx:id="s15" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label fx:id="s16" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                     <fx:define>
+                                         <ArrayList fx:id="sample1">
+                                             <fx:reference source="s10" />
+                                             <fx:reference source="s11" />
+                                             <fx:reference source="s12" />
+                                             <fx:reference source="s13" />
+                                             <fx:reference source="s14" />
+                                             <fx:reference source="s15" />
+                                             <fx:reference source="s16" />
+                                             <!-- ... -->
+                                         </ArrayList>
+                                     </fx:define>
+                                 </children>
+                              </GridPane>
+                              <Label layoutX="116.0" layoutY="24.0" text="S2" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="270.0" layoutY="10.0">
+                           <children>
+                              <GridPane layoutY="70.0" prefHeight="312.0" prefWidth="250.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="89.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="161.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="109.0" text="Property Code" />
+                                    <Label prefHeight="17.0" prefWidth="97.0" text="Price" GridPane.rowIndex="1" />
+                                    <Label text="Size" GridPane.rowIndex="2" />
+                                    <Label text="Rooms" GridPane.rowIndex="3" />
+                                    <Label text="Bathrooms" GridPane.rowIndex="4" />
+                                    <Label text="Address" GridPane.rowIndex="5" />
+                                    <Label text="url" GridPane.rowIndex="6" />
+                                    <Label fx:id="s20" text="Label" GridPane.columnIndex="1" />
+                                    <Label fx:id="s21" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label fx:id="s22" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="s23" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label fx:id="s24" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label fx:id="s25" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label fx:id="s26" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                     <fx:define>
+                                         <ArrayList fx:id="sample2">
+                                             <fx:reference source="s20" />
+                                             <fx:reference source="s21" />
+                                             <fx:reference source="s22" />
+                                             <fx:reference source="s23" />
+                                             <fx:reference source="s24" />
+                                             <fx:reference source="s25" />
+                                             <fx:reference source="s26" />
+                                             <!-- ... -->
+                                         </ArrayList>
+                                     </fx:define>
+                                 </children>
+                              </GridPane>
+                              <Label layoutX="116.0" layoutY="24.0" text="S3" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="530.0" layoutY="10.0">
+                           <children>
+                              <GridPane layoutY="70.0" prefHeight="312.0" prefWidth="250.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="89.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="161.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="109.0" text="Property Code" />
+                                    <Label prefHeight="17.0" prefWidth="97.0" text="Price" GridPane.rowIndex="1" />
+                                    <Label text="Size" GridPane.rowIndex="2" />
+                                    <Label text="Rooms" GridPane.rowIndex="3" />
+                                    <Label text="Bathrooms" GridPane.rowIndex="4" />
+                                    <Label text="Address" GridPane.rowIndex="5" />
+                                    <Label text="url" GridPane.rowIndex="6" />
+                                    <Label fx:id="s201" text="Label" GridPane.columnIndex="1" />
+                                    <Label fx:id="s211" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label fx:id="s221" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="s231" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label fx:id="s241" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label fx:id="s251" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label fx:id="s261" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                 </children>
+                              </GridPane>
+                              <Label layoutX="116.0" layoutY="24.0" text="S4" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="790.0" layoutY="10.0">
+                           <children>
+                              <GridPane layoutY="70.0" prefHeight="312.0" prefWidth="250.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="89.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="161.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="109.0" text="Property Code" />
+                                    <Label prefHeight="17.0" prefWidth="97.0" text="Price" GridPane.rowIndex="1" />
+                                    <Label text="Size" GridPane.rowIndex="2" />
+                                    <Label text="Rooms" GridPane.rowIndex="3" />
+                                    <Label text="Bathrooms" GridPane.rowIndex="4" />
+                                    <Label text="Address" GridPane.rowIndex="5" />
+                                    <Label text="url" GridPane.rowIndex="6" />
+                                    <Label fx:id="s2011" text="Label" GridPane.columnIndex="1" />
+                                    <Label fx:id="s2111" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label fx:id="s2211" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="s2311" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label fx:id="s2411" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label fx:id="s2511" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label fx:id="s2611" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                 </children>
+                              </GridPane>
+                              <Label layoutX="116.0" layoutY="24.0" text="S5" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
