@@ -18,6 +18,9 @@ public class Home {
     private Boolean showAddress;
     private String url;
 
+    private Double latitude;
+    private Double longitude;
+
     public String getPropertyCode() {
         return propertyCode;
     }
@@ -88,5 +91,21 @@ public class Home {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

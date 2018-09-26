@@ -25,6 +25,9 @@ public class HomeTable {
     private DoubleProperty priceSize;
     private DoubleProperty factor;
 
+    private DoubleProperty latitude;
+    private DoubleProperty longitude;
+
     public HomeTable(Integer id, Home home) {
         this.id = new SimpleIntegerProperty(id);
         this.distance = new SimpleIntegerProperty(home.getDistance());
@@ -36,6 +39,9 @@ public class HomeTable {
 
         this.factor = new SimpleDoubleProperty(1.0);
         this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() / this.size.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+        this.latitude = new SimpleDoubleProperty(home.getLatitude());
+        this.longitude = new SimpleDoubleProperty(home.getLongitude());
     }
 
     public int getId() {
@@ -180,5 +186,29 @@ public class HomeTable {
 
     public void setFactor(double factor) {
         this.factor.set(factor);
+    }
+
+    public double getLatitude() {
+        return latitude.get();
+    }
+
+    public DoubleProperty latitudeProperty() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude.set(latitude);
+    }
+
+    public double getLongitude() {
+        return longitude.get();
+    }
+
+    public DoubleProperty longitudeProperty() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude.set(longitude);
     }
 }

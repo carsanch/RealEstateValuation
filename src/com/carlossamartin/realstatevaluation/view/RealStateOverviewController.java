@@ -56,6 +56,11 @@ public class RealStateOverviewController {
     @FXML
     private TableColumn<HomeTable, String> urlColumn;
 
+    @FXML
+    private TableColumn<HomeTable, Double> latitudeColumn;
+    @FXML
+    private TableColumn<HomeTable, Double> longitudeColumn;
+
 
     private IdealistaRestClient idealistaClient;
     private GeocodingRestClient geocodingClient;
@@ -95,6 +100,11 @@ public class RealStateOverviewController {
         priceSizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("priceSize"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("address"));
         urlColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("url"));
+
+        latitudeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("latitude"));
+        longitudeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("longitude"));
+
+
 
         /*ObservableList<HomeTable> data =
                 FXCollections.observableArrayList(
