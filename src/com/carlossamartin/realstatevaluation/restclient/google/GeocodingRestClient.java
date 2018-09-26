@@ -14,7 +14,8 @@ import javax.ws.rs.core.MultivaluedMap;
 public class GeocodingRestClient {
 
     private static final String GOOGLE_API_KEY = "***REMOVED***";
-    private static final String GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
+    //private static final String GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
+    private static final String GOOGLE_API_URL ="https://2133eee7-3606-4ed4-a7fc-deee0fe036db.mock.pstmn.io/maps/api/geocode/json";
 
     public Place getPlace(String address)
     {
