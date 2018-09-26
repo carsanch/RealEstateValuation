@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
@@ -39,16 +40,29 @@
                <children>
                   <TableView fx:id="homeTable" editable="true" layoutX="289.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                        <TableColumn fx:id="distanceColumn" prefWidth="75.0" text="Distance" />
-                      <TableColumn fx:id="propertyCodeColumn" prefWidth="85.0" text="Property Code" />
-                      <TableColumn fx:id="priceColumn" prefWidth="65.0" text="Price" />
+                        <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="distanceColumn" prefWidth="75.0" text="Distance">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="distance" />
+                            </cellValueFactory>
+                        </TableColumn>
+                      <TableColumn fx:id="propertyCodeColumn" prefWidth="100.0" text="Property Code" />
+                      <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
                         <TableColumn fx:id="sizeColumn" prefWidth="75.0" text="Size" />
-                        <TableColumn fx:id="addressColumn" prefWidth="75.0" text="Address" />
-                        <TableColumn fx:id="urlColumn" prefWidth="125.0" text="Url" />
+                        <TableColumn fx:id="priceSizeColumn" prefWidth="75.0" text="Price / Size" />
+                        <TableColumn prefWidth="200.0" text="Agency">
+                           <columns>
+                              <TableColumn fx:id="agencyColumn" prefWidth="100.0" text="Agency" />
+                               <TableColumn fx:id="factorColumn" prefWidth="100.0" text="Factor">
+                                   <cellValueFactory>
+                                       <PropertyValueFactory property="factor" />
+                                   </cellValueFactory>
+                               </TableColumn>
+                           </columns>
+                        </TableColumn>
+                        <TableColumn fx:id="addressColumn" prefWidth="300.0" text="Address" />
+                        <TableColumn fx:id="urlColumn" prefWidth="300.0" text="Url" />
                     </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
                   </TableView>
                </children>
             </AnchorPane>
