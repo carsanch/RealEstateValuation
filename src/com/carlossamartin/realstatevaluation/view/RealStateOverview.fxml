@@ -50,7 +50,7 @@
                       <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
                         <TableColumn fx:id="sizeColumn" prefWidth="75.0" text="Size" />
                         <TableColumn fx:id="priceSizeColumn" prefWidth="75.0" text="Price / Size" />
-                        <TableColumn prefWidth="100.0" text="Agency">
+                        <TableColumn fx:id="agencyGroupColumn" prefWidth="100.0" text="Agency">
                            <columns>
                               <TableColumn fx:id="agencyColumn" prefWidth="50.0" text="Agency" />
                                <TableColumn fx:id="factorColumn" prefWidth="50.0" text="Factor">
@@ -61,7 +61,7 @@
                            </columns>
                         </TableColumn>
                         <TableColumn fx:id="addressColumn" prefWidth="300.0" text="Address" />
-                        <TableColumn prefWidth="200.0" text="Coordenates">
+                        <TableColumn fx:id="coordenatesGroupColumn" prefWidth="200.0" text="Coordenates">
                            <columns>
                               <TableColumn fx:id="latitudeColumn" prefWidth="75.0" text="Lat" />
                               <TableColumn fx:id="longitudeColumn" prefWidth="75.0" text="Long" />

@@ -10,9 +10,13 @@ import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRespo
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRestClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -74,6 +78,37 @@ public class RealStateOverviewController {
     @FXML
     public void initialize() {
 
+        homeTable.getSelectionModel().setCellSelectionEnabled(true);
+        homeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        MenuItem item = new MenuItem("Copy");
+        item.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ObservableList<TablePosition> posList = homeTable.getSelectionModel().getSelectedCells();
+                int old_r = -1;
+                StringBuilder clipboardString = new StringBuilder();
+                for (TablePosition p : posList) {
+                    int r = p.getRow();
+                    int c = p.getColumn();
+                    Object cell = homeTable.getVisibleLeafColumns().get(c).getCellData(r);
+                    if (cell == null)
+                        cell = "";
+                    if (old_r == r)
+                        clipboardString.append('\t');
+                    else if (old_r != -1)
+                        clipboardString.append('\n');
+                    clipboardString.append(cell);
+                    old_r = r;
+                }
+                final ClipboardContent content = new ClipboardContent();
+                content.putString(clipboardString.toString());
+                Clipboard.getSystemClipboard().setContent(content);
+            }
+        });
+        ContextMenu menu = new ContextMenu();
+        menu.getItems().add(item);
+        homeTable.setContextMenu(menu);
     }
 
     @FXML
@@ -156,60 +191,14 @@ public class RealStateOverviewController {
         homeTable.setOnKeyPressed(event -> {
         if (event.getCode().isLetterKey() || event.getCode().isDigitKey()) {
             editFocusedCell();
-        } else if (event.getCode() == KeyCode.RIGHT ||
-                event.getCode() == KeyCode.TAB) {
-            homeTable.getSelectionModel().selectNext();
-            event.consume();
-        } else if (event.getCode() == KeyCode.LEFT) {
-            // work around due to
-            // TableView.getSelectionModel().selectPrevious() due to a bug
-            // stopping it from working on
-            // the first column in the last row of the table
-            selectPrevious();
-            event.consume();
         }
         });
     }
 
     @SuppressWarnings("unchecked")
     private void editFocusedCell() {
-        final TablePosition< HomeTable, ? > focusedCell = homeTable
-                .focusModelProperty().get().focusedCellProperty().get();
+        final TablePosition< HomeTable, ? > focusedCell = homeTable.focusModelProperty().get().focusedCellProperty().get();
         homeTable.edit(focusedCell.getRow(), focusedCell.getTableColumn());
-    }
-
-    @SuppressWarnings("unchecked")
-    private void selectPrevious() {
-        if (homeTable.getSelectionModel().isCellSelectionEnabled()) {
-            // in cell selection mode, we have to wrap around, going from
-            // right-to-left, and then wrapping to the end of the previous line
-            TablePosition < HomeTable, ? > pos = homeTable.getFocusModel()
-                    .getFocusedCell();
-            if (pos.getColumn() - 1 >= 0) {
-                // go to previous row
-                homeTable.getSelectionModel().select(pos.getRow(),
-                        getTableColumn(pos.getTableColumn(), -1));
-            } else if (pos.getRow() < homeTable.getItems().size()) {
-                // wrap to end of previous row
-                homeTable.getSelectionModel().select(pos.getRow() - 1,
-                        homeTable.getVisibleLeafColumn(
-                                homeTable.getVisibleLeafColumns().size() - 1));
-            }
-        } else {
-            int focusIndex = homeTable.getFocusModel().getFocusedIndex();
-            if (focusIndex == -1) {
-                homeTable.getSelectionModel().select(homeTable.getItems().size() - 1);
-            } else if (focusIndex > 0) {
-                homeTable.getSelectionModel().select(focusIndex - 1);
-            }
-        }
-    }
-
-    private TableColumn < HomeTable, ? > getTableColumn(
-            final TableColumn < HomeTable, ? > column, int offset) {
-        int columnIndex = homeTable.getVisibleLeafIndex(column);
-        int newColumnIndex = columnIndex + offset;
-        return homeTable.getVisibleLeafColumn(newColumnIndex);
     }
 
     /**
