@@ -1,4 +1,4 @@
-package com.carlossamartin.realstatevaluation.view;
+package com.carlossamartin.realstatevaluation.view.utils;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

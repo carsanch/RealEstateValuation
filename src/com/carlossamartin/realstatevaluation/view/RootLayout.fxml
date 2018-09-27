@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carlossamartin.realstatevaluation.view.RootLayoutController">
@@ -11,11 +12,16 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handleNew" text="New" />
               <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handleCopy" text="Copy">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="C" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
               <MenuItem mnemonicParsing="false" onAction="#handleCopyAll" text="Copy All" />
             </items>
           </Menu>

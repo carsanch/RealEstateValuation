@@ -2,6 +2,7 @@ package com.carlossamartin.realstatevaluation.view;
 
 import com.carlossamartin.realstatevaluation.MainApp;
 import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
+import com.carlossamartin.realstatevaluation.view.utils.TableViewUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -27,7 +28,7 @@ public class RootLayoutController {
 
     @FXML
     private void handleNew() {
-        //TODO
+        this.mainApp.getHomeTable().getItems().clear();
     }
 
     @FXML
@@ -46,30 +47,16 @@ public class RootLayoutController {
     }
 
     @FXML
+    private void handleCopy()
+    {
+        TableViewUtils.copyToClipBoard(this.mainApp.getHomeTable());
+    }
+
+    @FXML
     private void handleCopyAll()
     {
         this.mainApp.getHomeTable().getSelectionModel().selectAll();
-        ObservableList<TablePosition> posList = this.mainApp.getHomeTable().getSelectionModel().getSelectedCells();
-        int old_r = -1;
-        StringBuilder clipboardString = new StringBuilder();
-        for (TablePosition p : posList) {
-            int r = p.getRow();
-            int c = p.getColumn();
-            Object cell = this.mainApp.getHomeTable().getVisibleLeafColumns().get(c).getCellData(r);
-            if (cell == null)
-                cell = "";
-            if (old_r == r)
-                clipboardString.append('\t');
-            else if (old_r != -1)
-                clipboardString.append('\n');
-            clipboardString.append(cell);
-            old_r = r;
-        }
-
-        final ClipboardContent content = new ClipboardContent();
-        content.putString(clipboardString.toString());
-        Clipboard.getSystemClipboard().setContent(content);
-
+        TableViewUtils.copyToClipBoard(this.mainApp.getHomeTable());
         this.mainApp.getHomeTable().getSelectionModel().clearSelection();
     }
 

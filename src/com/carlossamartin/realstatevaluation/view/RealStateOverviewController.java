@@ -8,6 +8,8 @@ import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
 import com.carlossamartin.realstatevaluation.restclient.google.GeocodingRestClient;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaResponse;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRestClient;
+import com.carlossamartin.realstatevaluation.view.utils.EditCell;
+import com.carlossamartin.realstatevaluation.view.utils.TableViewUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,12 +17,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.KeyCode;
 import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.IntegerStringConverter;
-import sun.plugin.dom.DOMObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,25 +81,7 @@ public class RealStateOverviewController {
         item.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                ObservableList<TablePosition> posList = homeTable.getSelectionModel().getSelectedCells();
-                int old_r = -1;
-                StringBuilder clipboardString = new StringBuilder();
-                for (TablePosition p : posList) {
-                    int r = p.getRow();
-                    int c = p.getColumn();
-                    Object cell = homeTable.getVisibleLeafColumns().get(c).getCellData(r);
-                    if (cell == null)
-                        cell = "";
-                    if (old_r == r)
-                        clipboardString.append('\t');
-                    else if (old_r != -1)
-                        clipboardString.append('\n');
-                    clipboardString.append(cell);
-                    old_r = r;
-                }
-                final ClipboardContent content = new ClipboardContent();
-                content.putString(clipboardString.toString());
-                Clipboard.getSystemClipboard().setContent(content);
+                TableViewUtils.copyToClipBoard(homeTable);
             }
         });
         ContextMenu menu = new ContextMenu();
