@@ -77,7 +77,6 @@ public class RealStateOverviewController {
 
     @FXML
     public void initialize() {
-
         homeTable.getSelectionModel().setCellSelectionEnabled(true);
         homeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -114,6 +113,10 @@ public class RealStateOverviewController {
     @FXML
     private void handleSearch()
     {
+        if (null == this.mainApp || null == this.mainApp.getHomeTable()) {
+            this.mainApp.setHomeTable(homeTable);
+        }
+
         geocodingClient = new GeocodingRestClient();
         idealistaClient = new IdealistaRestClient();
 
