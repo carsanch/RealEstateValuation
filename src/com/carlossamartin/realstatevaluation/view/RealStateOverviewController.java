@@ -81,7 +81,7 @@ public class RealStateOverviewController {
         item.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                TableViewUtils.copyToClipBoard(homeTable);
+                TableViewUtils.copySelectedToClipBoard(homeTable);
             }
         });
         ContextMenu menu = new ContextMenu();

@@ -1,15 +1,9 @@
 package com.carlossamartin.realstatevaluation.view;
 
 import com.carlossamartin.realstatevaluation.MainApp;
-import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
 import com.carlossamartin.realstatevaluation.view.utils.TableViewUtils;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TablePosition;
-import javafx.scene.control.TableView;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
 import javafx.stage.StageStyle;
 
 public class RootLayoutController {
@@ -49,14 +43,14 @@ public class RootLayoutController {
     @FXML
     private void handleCopy()
     {
-        TableViewUtils.copyToClipBoard(this.mainApp.getHomeTable());
+        TableViewUtils.copySelectedToClipBoard(this.mainApp.getHomeTable());
     }
 
     @FXML
     private void handleCopyAll()
     {
         this.mainApp.getHomeTable().getSelectionModel().selectAll();
-        TableViewUtils.copyToClipBoard(this.mainApp.getHomeTable());
+        TableViewUtils.copySelectedToClipBoard(this.mainApp.getHomeTable(), true);
         this.mainApp.getHomeTable().getSelectionModel().clearSelection();
     }
 
