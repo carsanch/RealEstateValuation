@@ -10,13 +10,16 @@ public class Home {
 
     private String propertyCode;
     private Integer distance;
-    private Long price;
-    private Long size;
+    private Double price;
+    private Double size;
     private Integer rooms;
     private Integer bathrooms;
     private String address;
     private Boolean showAddress;
     private String url;
+
+    private Double latitude;
+    private Double longitude;
 
     public String getPropertyCode() {
         return propertyCode;
@@ -34,19 +37,19 @@ public class Home {
         this.distance = distance;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public Long getSize() {
+    public Double getSize() {
         return size;
     }
 
-    public void setSize(Long size) {
+    public void setSize(Double size) {
         this.size = size;
     }
 
@@ -74,6 +77,14 @@ public class Home {
         this.address = address;
     }
 
+    public Boolean getShowAddress() {
+        return showAddress;
+    }
+
+    public void setShowAddress(Boolean showAddress) {
+        this.showAddress = showAddress;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -82,11 +93,19 @@ public class Home {
         this.url = url;
     }
 
-    public Boolean getShowAddress() {
-        return showAddress;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setShowAddress(Boolean showAddress) {
-        this.showAddress = showAddress;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

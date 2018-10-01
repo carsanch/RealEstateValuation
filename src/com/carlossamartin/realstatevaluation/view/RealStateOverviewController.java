@@ -8,14 +8,16 @@ import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
 import com.carlossamartin.realstatevaluation.restclient.google.GeocodingRestClient;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaResponse;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRestClient;
+import com.carlossamartin.realstatevaluation.view.utils.EditCell;
+import com.carlossamartin.realstatevaluation.view.utils.TableViewUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.converter.DoubleStringConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,17 +37,30 @@ public class RealStateOverviewController {
     private TableView<HomeTable> homeTable;
 
     @FXML
+    private TableColumn<HomeTable, Integer> idColumn;
+    @FXML
     private TableColumn<HomeTable, Integer> distanceColumn;
     @FXML
     private TableColumn<HomeTable, String> propertyCodeColumn;
     @FXML
-    private TableColumn<HomeTable, Long> priceColumn;
+    private TableColumn<HomeTable, Double> priceColumn;
     @FXML
-    private TableColumn<HomeTable, Integer> sizeColumn;
+    private TableColumn<HomeTable, Double> sizeColumn;
+    @FXML
+    private TableColumn<HomeTable, Double> priceSizeColumn;
+    @FXML
+    private TableColumn<HomeTable, Boolean> agencyColumn;
+    @FXML
+    private TableColumn<HomeTable, Double> factorColumn;
     @FXML
     private TableColumn<HomeTable, String> addressColumn;
     @FXML
     private TableColumn<HomeTable, String> urlColumn;
+
+    @FXML
+    private TableColumn<HomeTable, Double> latitudeColumn;
+    @FXML
+    private TableColumn<HomeTable, Double> longitudeColumn;
 
 
     private IdealistaRestClient idealistaClient;
@@ -59,12 +74,28 @@ public class RealStateOverviewController {
 
     @FXML
     public void initialize() {
+        homeTable.getSelectionModel().setCellSelectionEnabled(true);
+        homeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+        MenuItem item = new MenuItem("Copy");
+        item.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                TableViewUtils.copySelectedToClipBoard(homeTable);
+            }
+        });
+        ContextMenu menu = new ContextMenu();
+        menu.getItems().add(item);
+        homeTable.setContextMenu(menu);
     }
 
     @FXML
     private void handleSearch()
     {
+        if (null == this.mainApp || null == this.mainApp.getHomeTable()) {
+            this.mainApp.setHomeTable(homeTable);
+        }
+
         geocodingClient = new GeocodingRestClient();
         idealistaClient = new IdealistaRestClient();
 
@@ -78,12 +109,19 @@ public class RealStateOverviewController {
         String distance = "".equals(distanceField.getText()) ? distanceField.getPromptText() : distanceField.getText();
         IdealistaResponse idealistaResponse = idealistaClient.getSamples(coordinates, distance);
 
+        idColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("id"));
         distanceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("distance"));
         propertyCodeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("propertyCode"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Long>("price"));
-        sizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("size"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable, Double>("price"));
+        sizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("size"));
+        priceSizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("priceSize"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("address"));
         urlColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("url"));
+
+        latitudeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("latitude"));
+        longitudeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("longitude"));
+
+
 
         /*ObservableList<HomeTable> data =
                 FXCollections.observableArrayList(
@@ -95,14 +133,54 @@ public class RealStateOverviewController {
                 );*/
 
         List<HomeTable> list = new ArrayList<>();
+
+        int idCounter = 0;
         for(Home item : idealistaResponse.getElementList())
         {
             if(item.getShowAddress()) {
-                list.add(new HomeTable(item));
+                list.add(new HomeTable(++idCounter,item));
             }
         }
         ObservableList<HomeTable> data = FXCollections.observableArrayList(list);
         homeTable.setItems(data);
+
+        setupFactorColumn();
+        setTableEditable();
+    }
+
+    private void setupFactorColumn() {
+        // sets the cell factory to use EditCell which will handle key presses
+        // and firing commit events
+        factorColumn.setCellFactory(EditCell.<HomeTable,Double> forTableColumn(new DoubleStringConverter()));
+        // updates the salary field on the PersonTableData object to the
+        // committed value
+        factorColumn.setOnEditCommit(event -> {
+        final Double value = event.getNewValue() != null ?
+                event.getNewValue() : event.getOldValue();
+        ((HomeTable) event.getTableView().getItems()
+                .get(event.getTablePosition().getRow())).setFactor(value);
+        homeTable.refresh();
+        });
+    }
+
+
+    private void setTableEditable() {
+        homeTable.setEditable(true);
+        // allows the individual cells to be selected
+        homeTable.getSelectionModel().cellSelectionEnabledProperty().set(true);
+        // when character or numbers pressed it will start edit in editable
+        // fields
+        homeTable.setOnKeyPressed(event -> {
+        if (event.getCode().isLetterKey() || event.getCode().isDigitKey()) {
+            editFocusedCell();
+        }
+        });
+    }
+
+    @SuppressWarnings("unchecked")
+    private void editFocusedCell() {
+        final TablePosition< HomeTable, ? > focusedCell = homeTable.focusModelProperty().get().focusedCellProperty().get();
+        homeTable.edit(focusedCell.getRow(), focusedCell.getTableColumn());
     }
 
     /**
