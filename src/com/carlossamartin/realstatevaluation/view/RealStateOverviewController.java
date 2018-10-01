@@ -3,8 +3,10 @@ package com.carlossamartin.realstatevaluation.view;
 import com.carlossamartin.realstatevaluation.MainApp;
 import com.carlossamartin.realstatevaluation.model.google.Location;
 import com.carlossamartin.realstatevaluation.model.google.Place;
+import com.carlossamartin.realstatevaluation.model.idealista.AgencyEnum;
 import com.carlossamartin.realstatevaluation.model.idealista.Home;
 import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
+import com.carlossamartin.realstatevaluation.restclient.idealista.ParsingAgencyClient;
 import com.carlossamartin.realstatevaluation.restclient.google.GeocodingRestClient;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaResponse;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRestClient;
@@ -49,7 +51,7 @@ public class RealStateOverviewController {
     @FXML
     private TableColumn<HomeTable, Double> priceSizeColumn;
     @FXML
-    private TableColumn<HomeTable, Boolean> agencyColumn;
+    private TableColumn<HomeTable, String> agencyColumn;
     @FXML
     private TableColumn<HomeTable, Double> factorColumn;
     @FXML
@@ -115,6 +117,9 @@ public class RealStateOverviewController {
         priceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable, Double>("price"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("size"));
         priceSizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("priceSize"));
+
+        agencyColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("agency"));
+
         addressColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("address"));
         urlColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("url"));
 
@@ -146,6 +151,34 @@ public class RealStateOverviewController {
 
         setupFactorColumn();
         setTableEditable();
+
+        Thread agencyFactorThread = new Thread() {
+            public void run() {
+                getAgencyAndFactor();
+            }
+        };
+        agencyFactorThread.start();
+    }
+
+    private void getAgencyAndFactor() {
+        ParsingAgencyClient parsingAgencyClient = new ParsingAgencyClient();
+
+        for (HomeTable home : homeTable.getItems()) {
+            AgencyEnum value = parsingAgencyClient.getProfessional(home.getUrl());
+            home.setAgency(value.text());
+
+            if(value.equals(AgencyEnum.PROFESSIONAL))
+            {
+                home.setFactor(0.93);
+            }
+            else if(value.equals(AgencyEnum.PRIVATE))
+            {
+                home.setFactor(0.97);
+            }
+            else {
+                home.setFactor(1.00);
+            }
+        }
     }
 
     private void setupFactorColumn() {

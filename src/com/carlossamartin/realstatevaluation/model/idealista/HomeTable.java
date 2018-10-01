@@ -1,7 +1,6 @@
 package com.carlossamartin.realstatevaluation.model.idealista;
 
 import javafx.beans.property.*;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 
@@ -23,6 +22,7 @@ public class HomeTable {
     private StringProperty url;
 
     private DoubleProperty priceSize;
+    private StringProperty agency;
     private DoubleProperty factor;
 
     private DoubleProperty latitude;
@@ -37,6 +37,7 @@ public class HomeTable {
         this.address = new SimpleStringProperty(home.getAddress());
         this.url = new SimpleStringProperty(home.getUrl());
 
+        this.agency = new SimpleStringProperty(AgencyEnum.UNDEFINED.text());
         this.factor = new SimpleDoubleProperty(1.0);
         this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() / this.size.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
 
@@ -176,6 +177,18 @@ public class HomeTable {
         this.priceSize.set(priceSize);
     }
 
+    public String getAgency() {
+        return agency.get();
+    }
+
+    public StringProperty agencyProperty() {
+        return agency;
+    }
+
+    public void setAgency(String agency) {
+        this.agency.set(agency);
+    }
+
     public double getFactor() {
         return factor.get();
     }
@@ -212,3 +225,4 @@ public class HomeTable {
         this.longitude.set(longitude);
     }
 }
+
