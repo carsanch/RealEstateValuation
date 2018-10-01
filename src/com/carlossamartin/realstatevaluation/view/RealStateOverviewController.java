@@ -87,15 +87,25 @@ public class RealStateOverviewController {
         homeTable.getSelectionModel().setCellSelectionEnabled(true);
         homeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        MenuItem item = new MenuItem("Copy");
-        item.setOnAction(new EventHandler<ActionEvent>() {
+        MenuItem copyItemMenu = new MenuItem("Copy");
+        copyItemMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 TableViewUtils.copySelectedToClipBoard(homeTable);
             }
         });
+        MenuItem deleteItemMenu = new MenuItem("Delete");
+        deleteItemMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                HomeTable selectedItem = homeTable.getSelectionModel().getSelectedItem();
+                homeTable.getItems().remove(selectedItem);
+            }
+        });
+
         ContextMenu menu = new ContextMenu();
-        menu.getItems().add(item);
+        menu.getItems().add(copyItemMenu);
+        menu.getItems().add(deleteItemMenu);
         homeTable.setContextMenu(menu);
 
         data = FXCollections.observableArrayList(
@@ -109,7 +119,10 @@ public class RealStateOverviewController {
                     }
                 }
         );
-        data.addListener((ListChangeListener<? super HomeTable>) c -> calculateAvgFactor());
+        data.addListener((ListChangeListener<? super HomeTable>) c ->
+        {
+            calculateAvgFactor();
+        });
 
         enabledColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Boolean>("enabled"));
         enabledColumn.setCellFactory( tc -> new CheckBoxTableCell<>());
