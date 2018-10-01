@@ -10,6 +10,8 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="500.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carlossamartin.realstatevaluation.view.RealStateOverviewController">
    <children>
@@ -38,38 +40,46 @@
                </children></AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="homeTable" editable="true" layoutX="289.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <columns>
-                        <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
-                        <TableColumn fx:id="distanceColumn" prefWidth="75.0" text="Distance">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="distance" />
-                            </cellValueFactory>
-                        </TableColumn>
-                      <TableColumn fx:id="propertyCodeColumn" prefWidth="100.0" text="Property Code" />
-                      <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
-                        <TableColumn fx:id="sizeColumn" prefWidth="75.0" text="Size" />
-                        <TableColumn fx:id="priceSizeColumn" prefWidth="75.0" text="Price / Size" />
-                        <TableColumn fx:id="agencyGroupColumn" prefWidth="100.0" text="Agency">
-                           <columns>
-                              <TableColumn fx:id="agencyColumn" prefWidth="50.0" text="Agency" />
-                               <TableColumn fx:id="factorColumn" prefWidth="50.0" text="Factor">
-                                   <cellValueFactory>
-                                       <PropertyValueFactory property="factor" />
-                                   </cellValueFactory>
-                               </TableColumn>
-                           </columns>
-                        </TableColumn>
-                        <TableColumn fx:id="addressColumn" prefWidth="300.0" text="Address" />
-                        <TableColumn fx:id="coordenatesGroupColumn" prefWidth="200.0" text="Coordenates">
-                           <columns>
-                              <TableColumn fx:id="latitudeColumn" prefWidth="75.0" text="Lat" />
-                              <TableColumn fx:id="longitudeColumn" prefWidth="75.0" text="Long" />
-                           </columns>
-                        </TableColumn>
-                        <TableColumn fx:id="urlColumn" prefWidth="300.0" text="Url" />
-                    </columns>
-                  </TableView>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <TableView fx:id="homeTable" editable="true" prefHeight="400.0" prefWidth="1248.0">
+                          <columns>
+                              <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+                              <TableColumn fx:id="distanceColumn" prefWidth="75.0" text="Distance">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="distance" />
+                                  </cellValueFactory>
+                              </TableColumn>
+                            <TableColumn fx:id="propertyCodeColumn" prefWidth="100.0" text="Property Code" />
+                            <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
+                              <TableColumn fx:id="sizeColumn" prefWidth="75.0" text="Size" />
+                              <TableColumn fx:id="priceSizeColumn" prefWidth="75.0" text="Price / Size" />
+                              <TableColumn fx:id="agencyGroupColumn" prefWidth="100.0" text="Agency">
+                                 <columns>
+                                    <TableColumn fx:id="agencyColumn" prefWidth="50.0" text="Agency" />
+                                     <TableColumn fx:id="factorColumn" prefWidth="50.0" text="Factor">
+                                         <cellValueFactory>
+                                             <PropertyValueFactory property="factor" />
+                                         </cellValueFactory>
+                                     </TableColumn>
+                                 </columns>
+                              </TableColumn>
+                              <TableColumn fx:id="addressColumn" prefWidth="300.0" text="Address" />
+                              <TableColumn fx:id="coordenatesGroupColumn" prefWidth="200.0" text="Coordenates">
+                                 <columns>
+                                    <TableColumn fx:id="latitudeColumn" prefWidth="75.0" text="Lat" />
+                                    <TableColumn fx:id="longitudeColumn" prefWidth="75.0" text="Long" />
+                                 </columns>
+                              </TableColumn>
+                              <TableColumn fx:id="urlColumn" prefWidth="300.0" text="Url" />
+                          </columns>
+                        </TableView>
+                        <Pane prefHeight="100.0" prefWidth="1248.0">
+                           <children>
+                              <TextField fx:id="factorAvgField" layoutX="457.0" layoutY="21.0" />
+                           </children></Pane>
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
         </items>

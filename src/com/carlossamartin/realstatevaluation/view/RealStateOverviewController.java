@@ -10,19 +10,19 @@ import com.carlossamartin.realstatevaluation.restclient.idealista.ParsingAgencyC
 import com.carlossamartin.realstatevaluation.restclient.google.GeocodingRestClient;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaResponse;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRestClient;
-import com.carlossamartin.realstatevaluation.view.utils.EditCell;
 import com.carlossamartin.realstatevaluation.view.utils.TableViewUtils;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RealStateOverviewController {
 
@@ -34,6 +34,9 @@ public class RealStateOverviewController {
 
     @FXML
     private Label formattedAddress;
+
+    @FXML
+    private TextField factorAvgField;
 
     @FXML
     private TableView<HomeTable> homeTable;
@@ -71,6 +74,8 @@ public class RealStateOverviewController {
     // Reference to the main application.
     private MainApp mainApp;
 
+    ObservableList<HomeTable> data;
+
     public RealStateOverviewController() {
     }
 
@@ -89,6 +94,47 @@ public class RealStateOverviewController {
         ContextMenu menu = new ContextMenu();
         menu.getItems().add(item);
         homeTable.setContextMenu(menu);
+
+        data = FXCollections.observableArrayList(
+                new Callback<HomeTable, Observable[]>() {
+                    @Override
+                    public Observable[] call(HomeTable param) {
+                        return new Observable[]{
+                                param.factorProperty(),
+                        };
+                    }
+                }
+        );
+        data.addListener((ListChangeListener<? super HomeTable>) c -> calculateAvgFactor());
+
+        idColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("id"));
+        distanceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("distance"));
+        propertyCodeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("propertyCode"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable, Double>("price"));
+        sizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("size"));
+        priceSizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("priceSize"));
+
+        agencyColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("agency"));
+        factorColumn.setCellFactory(TextFieldTableCell.<HomeTable,Double> forTableColumn(new DoubleStringConverter()));
+        factorColumn.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<HomeTable, Double>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<HomeTable, Double> t) {
+                        ((HomeTable) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setFactor(t.getNewValue());
+                    }
+                }
+        );
+
+        addressColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("address"));
+        urlColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("url"));
+
+        latitudeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("latitude"));
+        longitudeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("longitude"));
+
+        homeTable.setItems(data);
+
     }
 
     @FXML
@@ -111,46 +157,13 @@ public class RealStateOverviewController {
         String distance = "".equals(distanceField.getText()) ? distanceField.getPromptText() : distanceField.getText();
         IdealistaResponse idealistaResponse = idealistaClient.getSamples(coordinates, distance);
 
-        idColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("id"));
-        distanceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("distance"));
-        propertyCodeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("propertyCode"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable, Double>("price"));
-        sizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("size"));
-        priceSizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("priceSize"));
-
-        agencyColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("agency"));
-
-        addressColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("address"));
-        urlColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("url"));
-
-        latitudeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("latitude"));
-        longitudeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("longitude"));
-
-
-
-        /*ObservableList<HomeTable> data =
-                FXCollections.observableArrayList(
-                        new HomeTable(idealistaResponse.getElementList().get(0)),
-                        new HomeTable(idealistaResponse.getElementList().get(1)),
-                        new HomeTable(idealistaResponse.getElementList().get(2)),
-                        new HomeTable(idealistaResponse.getElementList().get(3)),
-                        new HomeTable(idealistaResponse.getElementList().get(4))
-                );*/
-
-        List<HomeTable> list = new ArrayList<>();
-
         int idCounter = 0;
         for(Home item : idealistaResponse.getElementList())
         {
             if(item.getShowAddress()) {
-                list.add(new HomeTable(++idCounter,item));
+                data.add(new HomeTable(++idCounter,item));
             }
         }
-        ObservableList<HomeTable> data = FXCollections.observableArrayList(list);
-        homeTable.setItems(data);
-
-        setupFactorColumn();
-        setTableEditable();
 
         calculateAgencyAndFactor();
     }
@@ -185,39 +198,15 @@ public class RealStateOverviewController {
         }
     }
 
-    private void setupFactorColumn() {
-        // sets the cell factory to use EditCell which will handle key presses
-        // and firing commit events
-        factorColumn.setCellFactory(EditCell.<HomeTable,Double> forTableColumn(new DoubleStringConverter()));
-        // updates the salary field on the PersonTableData object to the
-        // committed value
-        factorColumn.setOnEditCommit(event -> {
-        final Double value = event.getNewValue() != null ?
-                event.getNewValue() : event.getOldValue();
-        ((HomeTable) event.getTableView().getItems()
-                .get(event.getTablePosition().getRow())).setFactor(value);
-        homeTable.refresh();
-        });
-    }
-
-
-    private void setTableEditable() {
-        homeTable.setEditable(true);
-        // allows the individual cells to be selected
-        homeTable.getSelectionModel().cellSelectionEnabledProperty().set(true);
-        // when character or numbers pressed it will start edit in editable
-        // fields
-        homeTable.setOnKeyPressed(event -> {
-        if (event.getCode().isLetterKey() || event.getCode().isDigitKey()) {
-            editFocusedCell();
+    private void calculateAvgFactor()
+    {
+        Double summation = 0.0;
+        for (HomeTable home : data) {
+            summation += home.getFactor();
         }
-        });
-    }
 
-    @SuppressWarnings("unchecked")
-    private void editFocusedCell() {
-        final TablePosition< HomeTable, ? > focusedCell = homeTable.focusModelProperty().get().focusedCellProperty().get();
-        homeTable.edit(focusedCell.getRow(), focusedCell.getTableColumn());
+        Double avg = summation / data.size();
+        factorAvgField.setText( String.format("%.4f", avg));
     }
 
     /**
