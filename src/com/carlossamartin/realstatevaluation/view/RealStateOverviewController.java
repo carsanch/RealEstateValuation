@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
@@ -41,6 +42,8 @@ public class RealStateOverviewController {
     @FXML
     private TableView<HomeTable> homeTable;
 
+    @FXML
+    private TableColumn<HomeTable, Boolean> enabledColumn;
     @FXML
     private TableColumn<HomeTable, Integer> idColumn;
     @FXML
@@ -100,13 +103,16 @@ public class RealStateOverviewController {
                     @Override
                     public Observable[] call(HomeTable param) {
                         return new Observable[]{
-                                param.factorProperty(),
+                                param.enabledProperty(),
+                                param.factorProperty()
                         };
                     }
                 }
         );
         data.addListener((ListChangeListener<? super HomeTable>) c -> calculateAvgFactor());
 
+        enabledColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Boolean>("enabled"));
+        enabledColumn.setCellFactory( tc -> new CheckBoxTableCell<>());
         idColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("id"));
         distanceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("distance"));
         propertyCodeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("propertyCode"));
@@ -201,11 +207,15 @@ public class RealStateOverviewController {
     private void calculateAvgFactor()
     {
         Double summation = 0.0;
+        int count = 0;
         for (HomeTable home : data) {
-            summation += home.getFactor();
+            if(home.isEnabled()){
+                count++;
+                summation += home.getFactor();
+            }
         }
 
-        Double avg = summation / data.size();
+        Double avg = summation / count;
         factorAvgField.setText( String.format("%.4f", avg));
     }
 
