@@ -152,6 +152,10 @@ public class RealStateOverviewController {
         setupFactorColumn();
         setTableEditable();
 
+        calculateAgencyAndFactor();
+    }
+
+    private void calculateAgencyAndFactor() {
         Thread agencyFactorThread = new Thread() {
             public void run() {
                 getAgencyAndFactor();
