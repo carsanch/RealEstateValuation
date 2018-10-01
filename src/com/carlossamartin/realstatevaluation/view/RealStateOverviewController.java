@@ -22,6 +22,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
 
@@ -125,10 +126,27 @@ public class RealStateOverviewController {
         });
 
         enabledColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Boolean>("enabled"));
-        enabledColumn.setCellFactory( tc -> new CheckBoxTableCell<>());
+        enabledColumn.setCellFactory( tc -> new CheckBoxTableCell()
+        {
+            @Override
+            public void updateItem(Object item, boolean empty) {
+                super.updateItem(item, empty);
+                TableRow<HomeTable> currentRow = getTableRow();
+                if (!isEmpty()) {
+                    if(item.equals(false)) {
+                        
+                        currentRow.setStyle("-fx-background-color:gray");
+                    }
+                    else {
+                        currentRow.setStyle("");
+                    }
+                }
+            }
+        });
         idColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("id"));
         distanceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("distance"));
         propertyCodeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("propertyCode"));
+
         priceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable, Double>("price"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("size"));
         priceSizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("priceSize"));
