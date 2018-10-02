@@ -1,4 +1,4 @@
-package com.carlossamartin.realstatevaluation.view.utils;
+package com.carlossamartin.realstatevaluation.utils;
 
 import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
 import javafx.collections.ObservableList;

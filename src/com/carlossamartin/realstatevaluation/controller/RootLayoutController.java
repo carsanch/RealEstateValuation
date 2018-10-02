@@ -1,7 +1,7 @@
-package com.carlossamartin.realstatevaluation.view;
+package com.carlossamartin.realstatevaluation.controller;
 
 import com.carlossamartin.realstatevaluation.MainApp;
-import com.carlossamartin.realstatevaluation.view.utils.TableViewUtils;
+import com.carlossamartin.realstatevaluation.utils.TableViewUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.stage.StageStyle;

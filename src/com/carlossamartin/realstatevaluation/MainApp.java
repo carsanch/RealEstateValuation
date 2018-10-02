@@ -1,9 +1,9 @@
 package com.carlossamartin.realstatevaluation;
 
 import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
-import com.carlossamartin.realstatevaluation.view.RealStateOverviewController;
-import com.carlossamartin.realstatevaluation.view.RootLayoutController;
-import com.carlossamartin.realstatevaluation.view.SettingsViewController;
+import com.carlossamartin.realstatevaluation.controller.RealStateOverviewController;
+import com.carlossamartin.realstatevaluation.controller.RootLayoutController;
+import com.carlossamartin.realstatevaluation.controller.SettingsViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

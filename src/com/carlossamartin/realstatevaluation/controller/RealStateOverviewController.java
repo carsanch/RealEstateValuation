@@ -1,4 +1,4 @@
-package com.carlossamartin.realstatevaluation.view;
+package com.carlossamartin.realstatevaluation.controller;
 
 import com.carlossamartin.realstatevaluation.MainApp;
 import com.carlossamartin.realstatevaluation.model.google.Location;
@@ -10,7 +10,7 @@ import com.carlossamartin.realstatevaluation.restclient.idealista.ParsingAgencyC
 import com.carlossamartin.realstatevaluation.restclient.google.GeocodingRestClient;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaResponse;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRestClient;
-import com.carlossamartin.realstatevaluation.view.utils.TableViewUtils;
+import com.carlossamartin.realstatevaluation.utils.TableViewUtils;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -22,7 +22,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
 

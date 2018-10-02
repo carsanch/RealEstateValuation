@@ -1,4 +1,4 @@
-package com.carlossamartin.realstatevaluation.view;
+package com.carlossamartin.realstatevaluation.controller;
 
 import com.carlossamartin.realstatevaluation.MainApp;
 import javafx.fxml.FXML;
