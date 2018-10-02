@@ -10,8 +10,7 @@ import java.util.prefs.Preferences;
 
 public class SettingsViewController {
 
-    private static final String ROOT = "root";
-    private static final String EMPTY = "root";
+    private static final String EMPTY = "";
     private MainApp mainApp;
     private Stage dialogStage;
 
@@ -26,8 +25,6 @@ public class SettingsViewController {
     @FXML
     private TextField professionalFactorField;
 
-
-    private boolean okClicked = false;
     private Preferences pref;
 
     /**
@@ -39,7 +36,7 @@ public class SettingsViewController {
 
     }
 
-    public void setMainApp(MainApp mainApp) {
+    public void init(MainApp mainApp) {
         this.mainApp = mainApp;
         loadPref();
     }
@@ -63,8 +60,13 @@ public class SettingsViewController {
     @FXML
     private void handleOk() {
 
-        pref.put("test","admin");
+        pref.put("ideApiKey",ideApiKeyField.getText() != null ? ideApiKeyField.getText() : EMPTY);
+        pref.put("ideSecret",ideSecretField.getText() != null ? ideSecretField.getText() : EMPTY);
+        pref.put("googleApiKey",googleApiKeyField.getText() != null ? googleApiKeyField.getText() : EMPTY);
+        pref.put("privateFactor",privateFactorField.getText() != null ? privateFactorField.getText() : EMPTY);
+        pref.put("professionalFactor",professionalFactorField.getText() != null ? professionalFactorField.getText() : EMPTY);
 
+        dialogStage.close();
     }
 
     /**
@@ -72,16 +74,6 @@ public class SettingsViewController {
      */
     @FXML
     private void handleCancel() {
+        dialogStage.close();
     }
-
-    /**
-     * Returns true if the user clicked OK, false otherwise.
-     *
-     * @return
-     */
-    public boolean isOkClicked() {
-        return okClicked;
-    }
-
-
 }

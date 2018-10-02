@@ -64,7 +64,7 @@ public class MainApp extends Application {
 
             // Give the controller access to the main app.
             RootLayoutController controller = loader.getController();
-            controller.setMainApp(this);
+            controller.init(this);
 
             primaryStage.show();
 
@@ -88,7 +88,7 @@ public class MainApp extends Application {
 
             // Give the controller access to the main app.
             RealStateOverviewController controller = loader.getController();
-            controller.setMainApp(this);
+            controller.init(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,7 +97,7 @@ public class MainApp extends Application {
     /**
      * Shows the person overview inside the root layout.
      */
-    public boolean showSettingView()     {
+    public void showSettingView()     {
         try {
         // Load the fxml file and create a new stage for the popup dialog.
         FXMLLoader loader = new FXMLLoader();
@@ -115,15 +115,13 @@ public class MainApp extends Application {
         // Set the person into the controller.
         SettingsViewController controller = loader.getController();
         controller.setDialogStage(dialogStage);
-        controller.setMainApp(this);
+        controller.init(this);
 
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
 
-        return controller.isOkClicked();
     } catch (IOException e) {
         e.printStackTrace();
-        return false;
     }
 }
 

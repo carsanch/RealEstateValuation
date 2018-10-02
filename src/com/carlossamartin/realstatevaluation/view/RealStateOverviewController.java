@@ -255,7 +255,7 @@ public class RealStateOverviewController {
      *
      * @param mainApp
      */
-    public void setMainApp(MainApp mainApp) {
+    public void init(MainApp mainApp) {
         this.mainApp = mainApp;
     }
 
