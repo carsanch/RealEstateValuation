@@ -10,14 +10,17 @@ public class RootLayoutController {
 
     // Reference to the main application
     private MainApp mainApp;
-
-    /**
-     * Is called by the main application to give a reference back to itself.
-     *
-     * @param mainApp
-     */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+    }
+
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
+    @FXML
+    private void initialize() {
+        System.out.println("Application Started.");
     }
 
     @FXML
@@ -25,6 +28,10 @@ public class RootLayoutController {
         this.mainApp.getHomeTable().getItems().clear();
     }
 
+    @FXML
+    private void handleSettings() {
+        this.mainApp.showSettingView();
+    }
     @FXML
     private void handleOpen() {
         //TODO
