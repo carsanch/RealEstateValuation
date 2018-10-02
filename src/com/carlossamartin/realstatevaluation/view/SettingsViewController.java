@@ -36,6 +36,15 @@ public class SettingsViewController {
      */
     @FXML
     private void initialize() {
+
+    }
+
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+        loadPref();
+    }
+
+    private void loadPref() {
         pref = this.mainApp.getPreferences();
         ideApiKeyField.setText(pref.get("ideApiKey", null));
         ideSecretField.setText(pref.get("ideSecret", null));
@@ -44,9 +53,6 @@ public class SettingsViewController {
         professionalFactorField.setText(pref.get("professionalFactor", null));
     }
 
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
