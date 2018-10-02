@@ -177,10 +177,6 @@ public class RealStateOverviewController {
     @FXML
     private void handleSearch()
     {
-        if (null == this.mainApp || null == this.mainApp.getHomeTable()) {
-            this.mainApp.setHomeTable(homeTable);
-        }
-
         geocodingClient = new GeocodingRestClient();
         idealistaClient = new IdealistaRestClient();
 
@@ -257,6 +253,7 @@ public class RealStateOverviewController {
      */
     public void init(MainApp mainApp) {
         this.mainApp = mainApp;
+        this.mainApp.setHomeTable(homeTable);
     }
 
 }

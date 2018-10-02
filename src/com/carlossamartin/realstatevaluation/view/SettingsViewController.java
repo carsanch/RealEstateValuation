@@ -25,7 +25,7 @@ public class SettingsViewController {
     @FXML
     private TextField professionalFactorField;
 
-    private Preferences pref;
+    private static Preferences pref;
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -42,7 +42,8 @@ public class SettingsViewController {
     }
 
     private void loadPref() {
-        pref = this.mainApp.getPreferences();
+        pref = Preferences.userNodeForPackage(MainApp.class);
+
         ideApiKeyField.setText(pref.get("ideApiKey", null));
         ideSecretField.setText(pref.get("ideSecret", null));
         googleApiKeyField.setText(pref.get("googleApiKey", null));

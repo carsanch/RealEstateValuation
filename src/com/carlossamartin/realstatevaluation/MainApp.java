@@ -30,12 +30,6 @@ public class MainApp extends Application {
     }
 
     private Preferences preferences;
-    public Preferences getPreferences() {
-        return preferences;
-    }
-    public void setPreferences(Preferences preferences) {
-        this.preferences = preferences;
-    }
 
     @Override
     public void start(Stage primaryStage) {

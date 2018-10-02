@@ -13,11 +13,9 @@ import java.util.Base64;
 public class IdealistaCredential {
 
     private final static String SCHEMA = "Bearer";
-    private static final String TOKEN_IDEALISTA_URL = "https://2133eee7-3606-4ed4-a7fc-deee0fe036db.mock.pstmn.io/oauth/token";
-    //private static final String TOKEN_IDEALISTA_URL = "https://api.idealista.com/oauth/token";
+    private static final String TOKEN_IDEALISTA_URL = "https://api.idealista.com/oauth/token";
+    private static final String TOKEN_IDEALISTA_URL_TEST = "https://2133eee7-3606-4ed4-a7fc-deee0fe036db.mock.pstmn.io/oauth/token";
 
-    private static final String API_KEY = "***REMOVED***";
-    private static final String SECRET = "***REMOVED***";
 
     private static String token;
 
@@ -29,17 +27,18 @@ public class IdealistaCredential {
         }
     }
 
-    public static void renewToken()
+    public static void renewToken(String ideApiKey, String ideSecret)
     {
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
         Client client = Client.create(clientConfig);
 
+        String url = "TEST".equals(ideApiKey) ?TOKEN_IDEALISTA_URL_TEST: TOKEN_IDEALISTA_URL;
         WebResource webResource;
-        webResource= client.resource(TOKEN_IDEALISTA_URL).queryParam("grant_type","client_credentials");
+        webResource= client.resource(url).queryParam("grant_type","client_credentials");
 
         ClientResponse response = webResource.type("application/json")
-                .header(HttpHeaders.AUTHORIZATION, String.format("Basic %s", getBasicCredentials()))
+                .header(HttpHeaders.AUTHORIZATION, String.format("Basic %s", getBasicCredentials(ideApiKey, ideSecret)))
                 .post(ClientResponse.class);
 
         if (response.getStatus() != 200) {
@@ -51,8 +50,8 @@ public class IdealistaCredential {
         token = credentialsResponse.getAccessToken();
     }
 
-    private static String getBasicCredentials() {
-        String keySecret = String.format("%s:%s", API_KEY, SECRET);
+    private static String getBasicCredentials(String ideApiKey, String ideSecret) {
+        String keySecret = String.format("%s:%s", ideApiKey, ideSecret);
         return new String(Base64.getEncoder().encode(keySecret.getBytes()));
     }
 }

@@ -1,5 +1,6 @@
 package com.carlossamartin.realstatevaluation.restclient.google;
 
+import com.carlossamartin.realstatevaluation.MainApp;
 import com.carlossamartin.realstatevaluation.model.google.Place;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -10,15 +11,20 @@ import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.prefs.Preferences;
 
 public class GeocodingRestClient {
 
-    private static final String GOOGLE_API_KEY = "***REMOVED***";
-    //private static final String GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
-    private static final String GOOGLE_API_URL ="https://2133eee7-3606-4ed4-a7fc-deee0fe036db.mock.pstmn.io/maps/api/geocode/json";
+    private static final String GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
+    private static final String GOOGLE_API_URL_TEST ="https://2133eee7-3606-4ed4-a7fc-deee0fe036db.mock.pstmn.io/maps/api/geocode/json";
+
+    private static Preferences preferences;
 
     public Place getPlace(String address)
     {
+        preferences = Preferences.userNodeForPackage(MainApp.class);
+        String googleApiKey = preferences.get("googleApiKey", null);
+
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
         Client client = Client.create(clientConfig);
@@ -26,10 +32,11 @@ public class GeocodingRestClient {
         MultivaluedMap<String, String> params = new MultivaluedMapImpl();
 
         params.add("address", address);
-        params.add("key", GOOGLE_API_KEY);
+        params.add("key", googleApiKey);
 
+        String url = "TEST".equals(googleApiKey) ? GOOGLE_API_URL_TEST : GOOGLE_API_URL;
         WebResource webResource;
-        webResource= client.resource(GOOGLE_API_URL).queryParams(params);
+        webResource= client.resource(url).queryParams(params);
 
         ClientResponse response = webResource.type("application/json")
                 .get(ClientResponse.class);
