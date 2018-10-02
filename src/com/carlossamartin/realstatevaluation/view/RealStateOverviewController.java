@@ -26,6 +26,8 @@ import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
 
+import java.util.prefs.Preferences;
+
 public class RealStateOverviewController {
 
     @FXML
@@ -202,15 +204,19 @@ public class RealStateOverviewController {
     }
 
     private void calculateAgencyAndFactor() {
+        Preferences pref = Preferences.userNodeForPackage(MainApp.class);
+        Double privateFactor = new Double(pref.get("privateFactor", null).replace(",","."));
+        Double professionalFactor = new Double(pref.get("professionalFactor", null).replace(",","."));
+
         Thread agencyFactorThread = new Thread() {
             public void run() {
-                getAgencyAndFactor();
+                getAgencyAndFactor(privateFactor,professionalFactor);
             }
         };
         agencyFactorThread.start();
     }
 
-    private void getAgencyAndFactor() {
+    private void getAgencyAndFactor(Double privateFactor, Double professionalFactor) {
         ParsingAgencyClient parsingAgencyClient = new ParsingAgencyClient();
 
         for (HomeTable home : homeTable.getItems()) {
@@ -219,11 +225,11 @@ public class RealStateOverviewController {
 
             if(value.equals(AgencyEnum.PROFESSIONAL))
             {
-                home.setFactor(0.93);
+                home.setFactor(professionalFactor);
             }
             else if(value.equals(AgencyEnum.PRIVATE))
             {
-                home.setFactor(0.97);
+                home.setFactor(privateFactor);
             }
             else {
                 home.setFactor(1.00);
