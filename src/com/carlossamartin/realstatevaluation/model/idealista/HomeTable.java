@@ -9,6 +9,7 @@ public class HomeTable {
     public HomeTable() {
     }
 
+    private BooleanProperty enabled;
     private IntegerProperty id;
 
     private StringProperty propertyCode;
@@ -29,7 +30,9 @@ public class HomeTable {
     private DoubleProperty longitude;
 
     public HomeTable(Integer id, Home home) {
+        this.enabled = new SimpleBooleanProperty(true);
         this.id = new SimpleIntegerProperty(id);
+
         this.distance = new SimpleIntegerProperty(home.getDistance());
         this.propertyCode = new SimpleStringProperty(home.getPropertyCode());
         this.price = new SimpleDoubleProperty(home.getPrice());
@@ -55,6 +58,18 @@ public class HomeTable {
 
     public void setId(int id) {
         this.id.set(id);
+    }
+
+    public boolean isEnabled() {
+        return enabled.get();
+    }
+
+    public BooleanProperty enabledProperty() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled.set(enabled);
     }
 
     public String getPropertyCode() {

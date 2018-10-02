@@ -44,6 +44,7 @@
                      <children>
                         <TableView fx:id="homeTable" editable="true" prefHeight="400.0" prefWidth="1248.0">
                           <columns>
+                              <TableColumn fx:id="enabledColumn" prefWidth="30.0" />
                               <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
                               <TableColumn fx:id="distanceColumn" prefWidth="75.0" text="Distance">
                                   <cellValueFactory>

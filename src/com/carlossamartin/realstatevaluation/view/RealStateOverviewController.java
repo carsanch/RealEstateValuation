@@ -19,8 +19,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
 
@@ -41,6 +43,8 @@ public class RealStateOverviewController {
     @FXML
     private TableView<HomeTable> homeTable;
 
+    @FXML
+    private TableColumn<HomeTable, Boolean> enabledColumn;
     @FXML
     private TableColumn<HomeTable, Integer> idColumn;
     @FXML
@@ -84,15 +88,25 @@ public class RealStateOverviewController {
         homeTable.getSelectionModel().setCellSelectionEnabled(true);
         homeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        MenuItem item = new MenuItem("Copy");
-        item.setOnAction(new EventHandler<ActionEvent>() {
+        MenuItem copyItemMenu = new MenuItem("Copy");
+        copyItemMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 TableViewUtils.copySelectedToClipBoard(homeTable);
             }
         });
+        MenuItem deleteItemMenu = new MenuItem("Delete");
+        deleteItemMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                HomeTable selectedItem = homeTable.getSelectionModel().getSelectedItem();
+                homeTable.getItems().remove(selectedItem);
+            }
+        });
+
         ContextMenu menu = new ContextMenu();
-        menu.getItems().add(item);
+        menu.getItems().add(copyItemMenu);
+        menu.getItems().add(deleteItemMenu);
         homeTable.setContextMenu(menu);
 
         data = FXCollections.observableArrayList(
@@ -100,16 +114,39 @@ public class RealStateOverviewController {
                     @Override
                     public Observable[] call(HomeTable param) {
                         return new Observable[]{
-                                param.factorProperty(),
+                                param.enabledProperty(),
+                                param.factorProperty()
                         };
                     }
                 }
         );
-        data.addListener((ListChangeListener<? super HomeTable>) c -> calculateAvgFactor());
+        data.addListener((ListChangeListener<? super HomeTable>) c ->
+        {
+            calculateAvgFactor();
+        });
 
+        enabledColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Boolean>("enabled"));
+        enabledColumn.setCellFactory( tc -> new CheckBoxTableCell()
+        {
+            @Override
+            public void updateItem(Object item, boolean empty) {
+                super.updateItem(item, empty);
+                TableRow<HomeTable> currentRow = getTableRow();
+                if (!isEmpty()) {
+                    if(item.equals(false)) {
+
+                        currentRow.setStyle("-fx-background-color: lightgrey; -fx-font-style: italic");
+                    }
+                    else {
+                        currentRow.setStyle("");
+                    }
+                }
+            }
+        });
         idColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("id"));
         distanceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("distance"));
         propertyCodeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("propertyCode"));
+
         priceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable, Double>("price"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("size"));
         priceSizeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("priceSize"));
@@ -201,11 +238,15 @@ public class RealStateOverviewController {
     private void calculateAvgFactor()
     {
         Double summation = 0.0;
+        int count = 0;
         for (HomeTable home : data) {
-            summation += home.getFactor();
+            if(home.isEnabled()){
+                count++;
+                summation += home.getFactor();
+            }
         }
 
-        Double avg = summation / data.size();
+        Double avg = summation / count;
         factorAvgField.setText( String.format("%.4f", avg));
     }
 
