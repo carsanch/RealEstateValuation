@@ -134,8 +134,8 @@ public class RealStateOverviewController {
                 TableRow<HomeTable> currentRow = getTableRow();
                 if (!isEmpty()) {
                     if(item.equals(false)) {
-                        
-                        currentRow.setStyle("-fx-background-color:gray");
+
+                        currentRow.setStyle("-fx-background-color: lightgrey; -fx-font-style: italic");
                     }
                     else {
                         currentRow.setStyle("");
