@@ -30,7 +30,7 @@ public class IdealistaRestClient {
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
         Client client = Client.create(clientConfig);
 
-        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
+        MultivaluedMapImpl params = new MultivaluedMapImpl();
 
         params.add("center", center);
         params.add("propertyType", "homes");
@@ -39,6 +39,7 @@ public class IdealistaRestClient {
         params.add("numPage", "1");
         params.add("order", "distance");
         params.add("sort", "asc");
+        params.add("maxItems", "50");
 
         String url = "TEST".equals(ideApiKey) ? API_IDEALISTA_URL_TEST : API_IDEALISTA_URL;
         WebResource webResource;
