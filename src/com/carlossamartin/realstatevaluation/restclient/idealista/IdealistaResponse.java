@@ -8,10 +8,11 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IdealistaResponse {
     private List<Home> elementList;
-    private Integer total;
 
+    private Integer total;
     private Integer totalPages;
     private Integer actualPage;
+    private Integer itemsPerPage;
 
     public IdealistaResponse() {
     }
@@ -46,5 +47,13 @@ public class IdealistaResponse {
 
     public void setActualPage(Integer actualPage) {
         this.actualPage = actualPage;
+    }
+
+    public Integer getItemsPerPage() {
+        return itemsPerPage;
+    }
+
+    public void setItemsPerPage(Integer itemsPerPage) {
+        this.itemsPerPage = itemsPerPage;
     }
 }

@@ -23,7 +23,7 @@
                      <children>
                         <Label alignment="TOP_LEFT" text="Address" />
                         <TextField fx:id="searchField" prefHeight="25.0" prefWidth="303.0" />
-                        <Button mnemonicParsing="false" onAction="#handleSearch" text="Search" />
+                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearch" text="Search" />
                         <Label fx:id="formattedAddress" prefHeight="17.0" prefWidth="482.0" text="Formated Address">
                            <padding>
                               <Insets left="15.0" />

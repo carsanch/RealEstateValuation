@@ -30,6 +30,8 @@ import java.util.prefs.Preferences;
 public class RealStateOverviewController {
 
     @FXML
+    private Button searchButton;
+    @FXML
     private TextField searchField;
 
     @FXML
@@ -83,13 +85,19 @@ public class RealStateOverviewController {
     // Reference to the main application.
     private MainApp mainApp;
 
-    ObservableList<HomeTable> data;
+    private ObservableList<HomeTable> data;
+    private IdealistaResponse idealistaResponse;
+    private String coordinates;
+    private String distance;
 
     public RealStateOverviewController() {
     }
 
     @FXML
     public void initialize() {
+        geocodingClient = new GeocodingRestClient();
+        idealistaClient = new IdealistaRestClient();
+
         homeTable.getSelectionModel().setCellSelectionEnabled(true);
         homeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -203,28 +211,49 @@ public class RealStateOverviewController {
     @FXML
     private void handleSearch()
     {
-        geocodingClient = new GeocodingRestClient();
-        idealistaClient = new IdealistaRestClient();
-
-        String address = searchField.getText();
-        Place place = geocodingClient.getPlace(address);
-        formattedAddress.setText(place.getFormattedAddress());
-
-        Location location = place.getGeometry().getLocation();
-        String coordinates = String.format("%s,%s", location.getLat(), location.getLng());
-
-        String distance = "".equals(distanceField.getText()) ? distanceField.getPromptText() : distanceField.getText();
-        IdealistaResponse idealistaResponse = idealistaClient.getSamples(coordinates, distance);
-
-        int idCounter = 0;
-        for(Home item : idealistaResponse.getElementList())
+        //NEW SEARCH
+        if(this.mainApp.isNewSearch())
         {
-            if(item.getShowAddress()) {
-                data.add(new HomeTable(++idCounter,item));
+            String address = searchField.getText();
+            Place place = geocodingClient.getPlace(address);
+            formattedAddress.setText(place.getFormattedAddress());
+
+            Location location = place.getGeometry().getLocation();
+            coordinates = String.format("%s,%s", location.getLat(), location.getLng());
+            distance = "".equals(distanceField.getText()) ? distanceField.getPromptText() : distanceField.getText();
+
+            idealistaResponse = idealistaClient.getSamples(coordinates, distance, 0);
+
+            if(idealistaResponse.getTotalPages() > 1)
+            {
+                searchButton.setText("More...");
+                this.mainApp.setNewSearch(false);
+            }
+        }
+        //MORE RESULTS
+        else
+        {
+            Integer page = idealistaResponse.getActualPage();
+            if(page <= idealistaResponse.getTotalPages()) {
+                idealistaResponse = idealistaClient.getSamples(coordinates, distance, ++page);
+            }else
+            {
+                searchButton.setDisable(true);
+                this.mainApp.setNewSearch(true);
             }
         }
 
-        calculateAgencyAndFactor();
+        //PROCESS
+        if(null != idealistaResponse && idealistaResponse.getTotal() > 0) {
+            int idCounter = homeTable.getItems().size();
+            for (Home item : idealistaResponse.getElementList()) {
+                if (item.getShowAddress()) {
+                    data.add(new HomeTable(++idCounter, item));
+                }
+            }
+
+            calculateAgencyAndFactor();
+        }
     }
 
     private void calculateAgencyAndFactor() {
@@ -304,6 +333,8 @@ public class RealStateOverviewController {
     public void init(MainApp mainApp) {
         this.mainApp = mainApp;
         this.mainApp.setHomeTable(homeTable);
+        this.mainApp.setNewSearch(true);
+        this.mainApp.setSearchButton(searchButton);
     }
 
 }

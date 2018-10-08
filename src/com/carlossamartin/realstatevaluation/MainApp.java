@@ -4,15 +4,18 @@ import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
 import com.carlossamartin.realstatevaluation.controller.RealStateOverviewController;
 import com.carlossamartin.realstatevaluation.controller.RootLayoutController;
 import com.carlossamartin.realstatevaluation.controller.SettingsViewController;
+import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaResponse;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
@@ -21,12 +24,28 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
+    private Button searchButton;
+    public Button getSearchButton() {
+        return searchButton;
+    }
+    public void setSearchButton(Button searchButton) {
+        this.searchButton = searchButton;
+    }
+
     private TableView<HomeTable> homeTable;
     public TableView<HomeTable> getHomeTable() {
         return homeTable;
     }
     public void setHomeTable(TableView<HomeTable> homeTable) {
         this.homeTable = homeTable;
+    }
+
+    private boolean newSearch;
+    public boolean isNewSearch() {
+        return newSearch;
+    }
+    public void setNewSearch(boolean newSearch) {
+        this.newSearch = newSearch;
     }
 
     private Preferences preferences;
@@ -129,5 +148,11 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void clearData() {
+        this.homeTable.getItems().clear();
+        this.newSearch = true;
+        this.searchButton.setText("Search");
     }
 }

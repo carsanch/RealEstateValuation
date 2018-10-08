@@ -10,7 +10,6 @@ import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MultivaluedMap;
 import java.util.prefs.Preferences;
 
 public class IdealistaRestClient {
@@ -20,7 +19,7 @@ public class IdealistaRestClient {
 
     private static Preferences preferences;
 
-    public IdealistaResponse getSamples(String center, String distance)
+    public IdealistaResponse getSamples(String center, String distance, Integer page)
     {
         preferences = Preferences.userNodeForPackage(MainApp.class);
         String ideApiKey = preferences.get("ideApiKey", null);
@@ -36,7 +35,7 @@ public class IdealistaRestClient {
         params.add("propertyType", "homes");
         params.add("distance", distance);
         params.add("operation", "sale");
-        params.add("numPage", "1");
+        params.add("numPage", page.toString());
         params.add("order", "distance");
         params.add("sort", "asc");
         params.add("maxItems", "50");
@@ -56,7 +55,7 @@ public class IdealistaRestClient {
         if(response.getStatus() == 401)
         {
             IdealistaCredential.renewToken(ideApiKey, ideSecret);
-            getSamples(center,distance);
+            getSamples(center,distance, page);
         }
 
         if (response.getStatus() != 200) {
@@ -73,7 +72,7 @@ public class IdealistaRestClient {
     static void getSamplesTest()
     {
         IdealistaRestClient client = new IdealistaRestClient();
-        IdealistaResponse out = client.getSamples("28.114451,-15.421717", "150");
+        IdealistaResponse out = client.getSamples("28.114451,-15.421717", "150", 0);
         System.out.println(out);
     }
 

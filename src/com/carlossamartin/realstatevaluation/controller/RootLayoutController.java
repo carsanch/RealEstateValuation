@@ -25,7 +25,7 @@ public class RootLayoutController {
 
     @FXML
     private void handleNew() {
-        this.mainApp.getHomeTable().getItems().clear();
+        this.mainApp.clearData();
     }
 
     @FXML
