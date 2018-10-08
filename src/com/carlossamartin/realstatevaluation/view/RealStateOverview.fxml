@@ -53,18 +53,23 @@
                               </TableColumn>
                             <TableColumn fx:id="propertyCodeColumn" prefWidth="100.0" text="Property Code" />
                             <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
-                              <TableColumn fx:id="sizeColumn" prefWidth="75.0" text="Size" />
+                              <TableColumn prefWidth="75.0" text="Size">
+                                 <columns>
+                                    <TableColumn fx:id="sizeColumn" prefWidth="75.0" text="m2" />
+                                    <TableColumn fx:id="sizeFactorColumn" prefWidth="75.0" text="Factor" />
+                                 </columns></TableColumn>
                               <TableColumn fx:id="priceSizeColumn" prefWidth="75.0" text="Price / Size" />
                               <TableColumn fx:id="agencyGroupColumn" prefWidth="100.0" text="Agency">
                                  <columns>
                                     <TableColumn fx:id="agencyColumn" prefWidth="50.0" text="Agency" />
-                                     <TableColumn fx:id="factorColumn" prefWidth="50.0" text="Factor">
+                                     <TableColumn fx:id="agencyFactorColumn" prefWidth="50.0" text="Factor">
                                          <cellValueFactory>
                                              <PropertyValueFactory property="factor" />
                                          </cellValueFactory>
                                      </TableColumn>
                                  </columns>
                               </TableColumn>
+                              <TableColumn fx:id="tunedPriceColumn" prefWidth="75.0" text="Tuned Price" />
                               <TableColumn fx:id="addressColumn" prefWidth="300.0" text="Address" />
                               <TableColumn fx:id="coordenatesGroupColumn" prefWidth="200.0" text="Coordenates">
                                  <columns>

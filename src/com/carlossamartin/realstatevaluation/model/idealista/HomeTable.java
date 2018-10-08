@@ -11,53 +11,61 @@ public class HomeTable {
 
     private BooleanProperty enabled;
     private IntegerProperty id;
-
     private StringProperty propertyCode;
     private IntegerProperty distance;
+
     private DoubleProperty price;
     private DoubleProperty size;
+    private DoubleProperty sizeFactor;
+    private DoubleProperty priceSize;
+
+    private StringProperty agency;
+    private DoubleProperty agencyFactor;
+
+    private DoubleProperty tunedPrice;
+
     private IntegerProperty rooms;
     private IntegerProperty bathrooms;
     private StringProperty address;
     private BooleanProperty showAddress;
     private StringProperty url;
 
-    private DoubleProperty priceSize;
-    private StringProperty agency;
-    private DoubleProperty factor;
-
     private DoubleProperty latitude;
     private DoubleProperty longitude;
 
     public HomeTable(Integer id, Home home) {
+
         this.enabled = new SimpleBooleanProperty(true);
         this.id = new SimpleIntegerProperty(id);
-
         this.distance = new SimpleIntegerProperty(home.getDistance());
         this.propertyCode = new SimpleStringProperty(home.getPropertyCode());
+
         this.price = new SimpleDoubleProperty(home.getPrice());
         this.size = new SimpleDoubleProperty(home.getSize());
-        this.address = new SimpleStringProperty(home.getAddress());
-        this.url = new SimpleStringProperty(home.getUrl());
+        this.sizeFactor = new SimpleDoubleProperty(1.0);
 
         this.agency = new SimpleStringProperty(AgencyEnum.UNDEFINED.text());
-        this.factor = new SimpleDoubleProperty(1.0);
-        this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() / this.size.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+        this.agencyFactor = new SimpleDoubleProperty(1.0);
+
+        //this.priceSize = new SimpleDoubleProperty();
+        calculateSizePrice();
+
+        //this.tunedPrice
+        calculateTunedPrice();
+
+        this.address = new SimpleStringProperty(home.getAddress());
+        this.url = new SimpleStringProperty(home.getUrl());
 
         this.latitude = new SimpleDoubleProperty(home.getLatitude());
         this.longitude = new SimpleDoubleProperty(home.getLongitude());
     }
 
-    public int getId() {
-        return id.get();
+    public void calculateSizePrice() {
+       this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.sizeFactor.doubleValue() * (this.price.doubleValue() / this.size.doubleValue())).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
-    public IntegerProperty idProperty() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id.set(id);
+    public void calculateTunedPrice() {
+        this.tunedPrice = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() * this.sizeFactor.doubleValue() * this.agencyFactor.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     public boolean isEnabled() {
@@ -70,6 +78,18 @@ public class HomeTable {
 
     public void setEnabled(boolean enabled) {
         this.enabled.set(enabled);
+    }
+
+    public int getId() {
+        return id.get();
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
     }
 
     public String getPropertyCode() {
@@ -118,6 +138,54 @@ public class HomeTable {
 
     public void setSize(double size) {
         this.size.set(size);
+    }
+
+    public double getSizeFactor() {
+        return sizeFactor.get();
+    }
+
+    public DoubleProperty sizeFactorProperty() {
+        return sizeFactor;
+    }
+
+    public void setSizeFactor(double sizeFactor) {
+        this.sizeFactor.set(sizeFactor);
+    }
+
+    public double getPriceSize() {
+        return priceSize.get();
+    }
+
+    public DoubleProperty priceSizeProperty() {
+        return priceSize;
+    }
+
+    public void setPriceSize(double priceSize) {
+        this.priceSize.set(priceSize);
+    }
+
+    public String getAgency() {
+        return agency.get();
+    }
+
+    public StringProperty agencyProperty() {
+        return agency;
+    }
+
+    public void setAgency(String agency) {
+        this.agency.set(agency);
+    }
+
+    public double getAgencyFactor() {
+        return agencyFactor.get();
+    }
+
+    public DoubleProperty agencyFactorProperty() {
+        return agencyFactor;
+    }
+
+    public void setAgencyFactor(double agencyFactor) {
+        this.agencyFactor.set(agencyFactor);
     }
 
     public int getRooms() {
@@ -180,42 +248,6 @@ public class HomeTable {
         this.url.set(url);
     }
 
-    public double getPriceSize() {
-        return priceSize.get();
-    }
-
-    public DoubleProperty priceSizeProperty() {
-        return priceSize;
-    }
-
-    public void setPriceSize(double priceSize) {
-        this.priceSize.set(priceSize);
-    }
-
-    public String getAgency() {
-        return agency.get();
-    }
-
-    public StringProperty agencyProperty() {
-        return agency;
-    }
-
-    public void setAgency(String agency) {
-        this.agency.set(agency);
-    }
-
-    public double getFactor() {
-        return factor.get();
-    }
-
-    public DoubleProperty factorProperty() {
-        return factor;
-    }
-
-    public void setFactor(double factor) {
-        this.factor.set(factor);
-    }
-
     public double getLatitude() {
         return latitude.get();
     }
@@ -238,6 +270,18 @@ public class HomeTable {
 
     public void setLongitude(double longitude) {
         this.longitude.set(longitude);
+    }
+
+    public double getTunedPrice() {
+        return tunedPrice.get();
+    }
+
+    public DoubleProperty tunedPriceProperty() {
+        return tunedPrice;
+    }
+
+    public void setTunedPrice(double tunedPrice) {
+        this.tunedPrice.set(tunedPrice);
     }
 }
 
