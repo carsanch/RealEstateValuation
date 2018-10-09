@@ -1,25 +1,33 @@
 package com.carlossamartin.realstatevaluation;
 
-import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
+import com.carlossamartin.realstatevaluation.model.HomeTableWrapper;
+import com.carlossamartin.realstatevaluation.model.HomeTable;
 import com.carlossamartin.realstatevaluation.controller.RealStateOverviewController;
 import com.carlossamartin.realstatevaluation.controller.RootLayoutController;
 import com.carlossamartin.realstatevaluation.controller.SettingsViewController;
-import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaResponse;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-import javax.swing.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
 public class MainApp extends Application {
+
+    private final static String TITLE_APP = "RealStateValuation";
 
     private Stage primaryStage;
     private BorderPane rootLayout;
@@ -30,6 +38,14 @@ public class MainApp extends Application {
     }
     public void setSearchButton(Button searchButton) {
         this.searchButton = searchButton;
+    }
+
+    private Label formattedAddress;
+    public Label getFormattedAddress() {
+        return formattedAddress;
+    }
+    public void setFormattedAddress(Label formattedAddress) {
+        this.formattedAddress = formattedAddress;
     }
 
     private TableView<HomeTable> homeTable;
@@ -53,7 +69,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("RealStateValuation");
+        this.primaryStage.setTitle(TITLE_APP);
 
         preferences = Preferences.userNodeForPackage(MainApp.class);
 
@@ -105,6 +121,12 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Try to load last opened person file.
+        File file = getHomeFilePath();
+        if (file != null) {
+            loadPersonDataFromFile(file);
+        }
     }
 
     /**
@@ -154,5 +176,82 @@ public class MainApp extends Application {
         this.homeTable.getItems().clear();
         this.newSearch = true;
         this.searchButton.setText("Search");
+        this.formattedAddress.setText("");
+    }
+
+    public void loadPersonDataFromFile(File file) {
+        try {
+            JAXBContext context = JAXBContext
+                    .newInstance(HomeTableWrapper.class);
+            Unmarshaller um = context.createUnmarshaller();
+
+            // Reading XML from the file and unmarshalling.
+            HomeTableWrapper wrapper = (HomeTableWrapper) um.unmarshal(file);
+
+            formattedAddress.setText(wrapper.getFormattedAddress());
+            homeTable.getItems().clear();
+            homeTable.getItems().addAll(wrapper.getHomes());
+
+            // Save the file path to the registry.
+            setHomeFilePath(file);
+
+        } catch (Exception e) { // catches ANY exception
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Error");
+            alert.setHeaderText("Could not load data from file:\n" + file.getPath());
+            alert.showAndWait();
+        }
+    }
+
+    public void savePersonDataToFile(File file) {
+        try {
+            JAXBContext context = JAXBContext
+                    .newInstance(HomeTableWrapper.class);
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            // Wrapping our person data.
+            HomeTableWrapper wrapper = new HomeTableWrapper();
+            wrapper.setFormattedAddress(formattedAddress.getText());
+            wrapper.setHomes(homeTable.getItems());
+
+            // Marshalling and saving XML to the file.
+            m.marshal(wrapper, file);
+
+            // Save the file path to the registry.
+            setHomeFilePath(file);
+        } catch (Exception e) { // catches ANY exception
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Error");
+            alert.setHeaderText("Could not save data to file:\n" + file.getPath());
+            alert.showAndWait();
+        }
+    }
+
+    public File getHomeFilePath() {
+        Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+        String filePath = prefs.get("filePath", null);
+        if (filePath != null) {
+            return new File(filePath);
+        } else {
+            return null;
+        }
+    }
+
+    public void setHomeFilePath(File file) {
+
+        if (file != null) {
+            preferences.put("filePath", file.getPath());
+
+            // Update the stage title.
+            primaryStage.setTitle(TITLE_APP + " - " + file.getName());
+        } else {
+            preferences.remove("filePath");
+
+            // Update the stage title.
+            primaryStage.setTitle(TITLE_APP);
+        }
     }
 }

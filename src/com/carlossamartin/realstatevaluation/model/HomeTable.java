@@ -1,13 +1,12 @@
-package com.carlossamartin.realstatevaluation.model.idealista;
+package com.carlossamartin.realstatevaluation.model;
 
+import com.carlossamartin.realstatevaluation.model.idealista.AgencyEnum;
+import com.carlossamartin.realstatevaluation.model.idealista.Home;
 import javafx.beans.property.*;
 
 import java.math.BigDecimal;
 
 public class HomeTable {
-
-    public HomeTable() {
-    }
 
     private BooleanProperty enabled;
     private IntegerProperty id;
@@ -27,11 +26,36 @@ public class HomeTable {
     private IntegerProperty rooms;
     private IntegerProperty bathrooms;
     private StringProperty address;
-    private BooleanProperty showAddress;
     private StringProperty url;
 
     private DoubleProperty latitude;
     private DoubleProperty longitude;
+
+    public HomeTable() {
+        this.enabled = new SimpleBooleanProperty();
+        this.id = new SimpleIntegerProperty();
+        this.distance = new SimpleIntegerProperty();
+        this.propertyCode = new SimpleStringProperty();
+
+        this.price = new SimpleDoubleProperty();
+        this.size = new SimpleDoubleProperty();
+        this.sizeFactor = new SimpleDoubleProperty();
+
+        this.agency = new SimpleStringProperty();
+        this.agencyFactor = new SimpleDoubleProperty();
+
+        this.priceSize = new SimpleDoubleProperty();
+        this.tunedPrice = new SimpleDoubleProperty();
+
+        this.address = new SimpleStringProperty();
+        this.url = new SimpleStringProperty();
+
+        this.latitude = new SimpleDoubleProperty();
+        this.longitude = new SimpleDoubleProperty();
+
+        this.rooms = new SimpleIntegerProperty();
+        this.bathrooms = new SimpleIntegerProperty();
+    }
 
     public HomeTable(Integer id, Home home) {
 
@@ -58,6 +82,9 @@ public class HomeTable {
 
         this.latitude = new SimpleDoubleProperty(home.getLatitude());
         this.longitude = new SimpleDoubleProperty(home.getLongitude());
+
+        this.rooms = new SimpleIntegerProperty(home.getRooms());
+        this.bathrooms = new SimpleIntegerProperty(home.getBathrooms());
     }
 
     public void calculateSizePrice() {
@@ -222,18 +249,6 @@ public class HomeTable {
 
     public void setAddress(String address) {
         this.address.set(address);
-    }
-
-    public boolean isShowAddress() {
-        return showAddress.get();
-    }
-
-    public BooleanProperty showAddressProperty() {
-        return showAddress;
-    }
-
-    public void setShowAddress(boolean showAddress) {
-        this.showAddress.set(showAddress);
     }
 
     public String getUrl() {

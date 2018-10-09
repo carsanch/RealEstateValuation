@@ -1,6 +1,6 @@
 package com.carlossamartin.realstatevaluation.utils;
 
-import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
+import com.carlossamartin.realstatevaluation.model.HomeTable;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;

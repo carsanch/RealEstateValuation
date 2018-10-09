@@ -5,7 +5,7 @@ import com.carlossamartin.realstatevaluation.model.google.Location;
 import com.carlossamartin.realstatevaluation.model.google.Place;
 import com.carlossamartin.realstatevaluation.model.idealista.AgencyEnum;
 import com.carlossamartin.realstatevaluation.model.idealista.Home;
-import com.carlossamartin.realstatevaluation.model.idealista.HomeTable;
+import com.carlossamartin.realstatevaluation.model.HomeTable;
 import com.carlossamartin.realstatevaluation.restclient.idealista.ParsingAgencyClient;
 import com.carlossamartin.realstatevaluation.restclient.google.GeocodingRestClient;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaResponse;
@@ -335,6 +335,7 @@ public class RealStateOverviewController {
         this.mainApp.setHomeTable(homeTable);
         this.mainApp.setNewSearch(true);
         this.mainApp.setSearchButton(searchButton);
+        this.mainApp.setFormattedAddress(formattedAddress);
     }
 
 }
