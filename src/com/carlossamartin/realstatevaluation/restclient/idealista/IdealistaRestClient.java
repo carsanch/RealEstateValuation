@@ -15,7 +15,7 @@ import java.util.prefs.Preferences;
 public class IdealistaRestClient {
 
     private static final String API_IDEALISTA_URL = "https://api.idealista.com/3.5/es/search";
-    private static final String API_IDEALISTA_URL_TEST = "https://2133eee7-3606-4ed4-a7fc-deee0fe036db.mock.pstmn.io/3.5/es/search";
+    private static final String API_IDEALISTA_URL_TEST = "https://2c9b0f46-162b-4d95-9d1e-fdc5cd4c91a3.mock.pstmn.io/3.5/es/search";
 
     private static Preferences preferences;
 
