@@ -11,7 +11,9 @@ public class HomeTable {
     private BooleanProperty enabled;
     private IntegerProperty id;
     private StringProperty propertyCode;
+
     private IntegerProperty distance;
+    private DoubleProperty distanceFactor;
 
     private DoubleProperty price;
     private DoubleProperty size;
@@ -21,8 +23,6 @@ public class HomeTable {
     private StringProperty agency;
     private DoubleProperty agencyFactor;
 
-    private DoubleProperty tunedPrice;
-
     private IntegerProperty rooms;
     private IntegerProperty bathrooms;
     private StringProperty address;
@@ -31,10 +31,21 @@ public class HomeTable {
     private DoubleProperty latitude;
     private DoubleProperty longitude;
 
+    private DoubleProperty ageFactor;
+    private DoubleProperty qualityFactor;
+
+    private StringProperty other;
+    private DoubleProperty otherFactor;
+
+    private DoubleProperty factorProduct;
+    private DoubleProperty standardPrice;
+
     public HomeTable() {
         this.enabled = new SimpleBooleanProperty();
         this.id = new SimpleIntegerProperty();
         this.distance = new SimpleIntegerProperty();
+        this.distanceFactor = new SimpleDoubleProperty();
+
         this.propertyCode = new SimpleStringProperty();
 
         this.price = new SimpleDoubleProperty();
@@ -45,7 +56,7 @@ public class HomeTable {
         this.agencyFactor = new SimpleDoubleProperty();
 
         this.priceSize = new SimpleDoubleProperty();
-        this.tunedPrice = new SimpleDoubleProperty();
+        this.standardPrice = new SimpleDoubleProperty();
 
         this.address = new SimpleStringProperty();
         this.url = new SimpleStringProperty();
@@ -55,13 +66,21 @@ public class HomeTable {
 
         this.rooms = new SimpleIntegerProperty();
         this.bathrooms = new SimpleIntegerProperty();
+
+        this.ageFactor = new SimpleDoubleProperty();
+        this.qualityFactor = new SimpleDoubleProperty();
+        this.other = new SimpleStringProperty();
+        this.otherFactor = new SimpleDoubleProperty();
     }
 
     public HomeTable(Integer id, Home home) {
 
         this.enabled = new SimpleBooleanProperty(true);
         this.id = new SimpleIntegerProperty(id);
+
         this.distance = new SimpleIntegerProperty(home.getDistance());
+        this.distanceFactor = new SimpleDoubleProperty(1.0);
+
         this.propertyCode = new SimpleStringProperty(home.getPropertyCode());
 
         this.price = new SimpleDoubleProperty(home.getPrice());
@@ -71,12 +90,6 @@ public class HomeTable {
         this.agency = new SimpleStringProperty(AgencyEnum.UNDEFINED.text());
         this.agencyFactor = new SimpleDoubleProperty(1.0);
 
-        //this.priceSize = new SimpleDoubleProperty();
-        calculateSizePrice();
-
-        //this.tunedPrice
-        calculateTunedPrice();
-
         this.address = new SimpleStringProperty(home.getAddress());
         this.url = new SimpleStringProperty(home.getUrl());
 
@@ -85,14 +98,35 @@ public class HomeTable {
 
         this.rooms = new SimpleIntegerProperty(home.getRooms());
         this.bathrooms = new SimpleIntegerProperty(home.getBathrooms());
+
+        this.ageFactor = new SimpleDoubleProperty(1.0);
+        this.qualityFactor = new SimpleDoubleProperty(1.0);
+        this.other = new SimpleStringProperty();
+        this.otherFactor = new SimpleDoubleProperty(1.0);
+
+        //this.priceSize = new SimpleDoubleProperty();
+        calculateSizePrice();
+
+        //this.factorProduct = new SimpleDoubleProperty();
+        calculateFactorProduct();
+
+        //this.standardPrice
+        calculateStandardPrice();
     }
 
     public void calculateSizePrice() {
-       this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.sizeFactor.doubleValue() * (this.price.doubleValue() / this.size.doubleValue())).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+       this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() /
+               this.size.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
-    public void calculateTunedPrice() {
-        this.tunedPrice = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() * this.sizeFactor.doubleValue() * this.agencyFactor.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+    public void calculateFactorProduct() {
+        this.factorProduct = new SimpleDoubleProperty(new BigDecimal(this.sizeFactor.doubleValue() * this.distanceFactor.doubleValue() * this.agencyFactor.doubleValue()
+                * this.ageFactor.doubleValue() *this.qualityFactor.doubleValue() * this.otherFactor.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+    }
+
+    public void calculateStandardPrice() {
+        this.standardPrice = new SimpleDoubleProperty(new BigDecimal(this.factorProduct.doubleValue()
+                * this.priceSize.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     public boolean isEnabled() {
@@ -141,6 +175,18 @@ public class HomeTable {
 
     public void setDistance(int distance) {
         this.distance.set(distance);
+    }
+
+    public double getDistanceFactor() {
+        return distanceFactor.get();
+    }
+
+    public DoubleProperty distanceFactorProperty() {
+        return distanceFactor;
+    }
+
+    public void setDistanceFactor(double distanceFactor) {
+        this.distanceFactor.set(distanceFactor);
     }
 
     public double getPrice() {
@@ -215,6 +261,18 @@ public class HomeTable {
         this.agencyFactor.set(agencyFactor);
     }
 
+    public double getStandardPrice() {
+        return standardPrice.get();
+    }
+
+    public DoubleProperty standardPriceProperty() {
+        return standardPrice;
+    }
+
+    public void setStandardPrice(double standardPrice) {
+        this.standardPrice.set(standardPrice);
+    }
+
     public int getRooms() {
         return rooms.get();
     }
@@ -287,16 +345,64 @@ public class HomeTable {
         this.longitude.set(longitude);
     }
 
-    public double getTunedPrice() {
-        return tunedPrice.get();
+    public double getAgeFactor() {
+        return ageFactor.get();
     }
 
-    public DoubleProperty tunedPriceProperty() {
-        return tunedPrice;
+    public DoubleProperty ageFactorProperty() {
+        return ageFactor;
     }
 
-    public void setTunedPrice(double tunedPrice) {
-        this.tunedPrice.set(tunedPrice);
+    public void setAgeFactor(double ageFactor) {
+        this.ageFactor.set(ageFactor);
+    }
+
+    public double getQualityFactor() {
+        return qualityFactor.get();
+    }
+
+    public DoubleProperty qualityFactorProperty() {
+        return qualityFactor;
+    }
+
+    public void setQualityFactor(double qualityFactor) {
+        this.qualityFactor.set(qualityFactor);
+    }
+
+    public String getOther() {
+        return other.get();
+    }
+
+    public StringProperty otherProperty() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other.set(other);
+    }
+
+    public double getOtherFactor() {
+        return otherFactor.get();
+    }
+
+    public DoubleProperty otherFactorProperty() {
+        return otherFactor;
+    }
+
+    public void setOtherFactor(double otherFactor) {
+        this.otherFactor.set(otherFactor);
+    }
+
+    public double getFactorProduct() {
+        return factorProduct.get();
+    }
+
+    public DoubleProperty factorProductProperty() {
+        return factorProduct;
+    }
+
+    public void setFactorProduct(double factorProduct) {
+        this.factorProduct.set(factorProduct);
     }
 }
 

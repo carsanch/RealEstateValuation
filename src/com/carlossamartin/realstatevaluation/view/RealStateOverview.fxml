@@ -122,7 +122,7 @@
                               <TableColumn prefWidth="75.0" text="Other">
                                  <columns>
                                     <TableColumn fx:id="otherColumn" prefWidth="100.0" text="Desc." />
-                                    <TableColumn fx:id="otherFactorColumn" prefWidth="75.0" text="#" />
+                                    <TableColumn fx:id="otherFactorColumn" prefWidth="50.0" text="#" />
                                  </columns>
                               </TableColumn>
                               <TableColumn fx:id="factorProductColumn" prefWidth="75.0" text="TOTAL #" />
