@@ -73,6 +73,9 @@ public class HomeTable {
         this.qualityFactor = new SimpleDoubleProperty();
         this.other = new SimpleStringProperty();
         this.otherFactor = new SimpleDoubleProperty();
+
+        this.factorProduct = new SimpleDoubleProperty();
+        this.standardPrice = new SimpleDoubleProperty();
     }
 
     public HomeTable(Integer id, Home home) {

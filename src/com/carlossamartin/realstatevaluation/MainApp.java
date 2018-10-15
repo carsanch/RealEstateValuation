@@ -1,7 +1,7 @@
 package com.carlossamartin.realstatevaluation;
 
-import com.carlossamartin.realstatevaluation.model.HomeTableWrapper;
 import com.carlossamartin.realstatevaluation.model.HomeTable;
+import com.carlossamartin.realstatevaluation.model.HomeTableWrapper;
 import com.carlossamartin.realstatevaluation.controller.RealStateOverviewController;
 import com.carlossamartin.realstatevaluation.controller.RootLayoutController;
 import com.carlossamartin.realstatevaluation.controller.SettingsViewController;
@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -32,37 +31,7 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
-    private Button searchButton;
-    public Button getSearchButton() {
-        return searchButton;
-    }
-    public void setSearchButton(Button searchButton) {
-        this.searchButton = searchButton;
-    }
-
-    private Label formattedAddress;
-    public Label getFormattedAddress() {
-        return formattedAddress;
-    }
-    public void setFormattedAddress(Label formattedAddress) {
-        this.formattedAddress = formattedAddress;
-    }
-
-    private TableView<HomeTable> homeTable;
-    public TableView<HomeTable> getHomeTable() {
-        return homeTable;
-    }
-    public void setHomeTable(TableView<HomeTable> homeTable) {
-        this.homeTable = homeTable;
-    }
-
-    private boolean newSearch;
-    public boolean isNewSearch() {
-        return newSearch;
-    }
-    public void setNewSearch(boolean newSearch) {
-        this.newSearch = newSearch;
-    }
+    private RealStateOverviewController realStateOverviewController;
 
     private Preferences preferences;
 
@@ -116,16 +85,22 @@ public class MainApp extends Application {
             rootLayout.setCenter(realStateOverview);
 
             // Give the controller access to the main app.
-            RealStateOverviewController controller = loader.getController();
-            controller.init(this);
+            realStateOverviewController = loader.getController();
+            realStateOverviewController.init(this);
+
+            // Try to load last opened person file.
+            File file = getHomeFilePath();
+            if (file != null) {
+                HomeTableWrapper wrapper = loadWrapperFromFile(file);
+
+                if(wrapper != null)
+                {
+                    realStateOverviewController.setData(wrapper);
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        // Try to load last opened person file.
-        File file = getHomeFilePath();
-        if (file != null) {
-            loadPersonDataFromFile(file);
         }
     }
 
@@ -173,24 +148,19 @@ public class MainApp extends Application {
     }
 
     public void clearData() {
-        this.homeTable.getItems().clear();
-        this.newSearch = true;
-        this.searchButton.setText("Search");
-        this.formattedAddress.setText("");
+        realStateOverviewController.clearData();
     }
 
-    public void loadPersonDataFromFile(File file) {
+    public HomeTableWrapper loadWrapperFromFile(File file) {
+
+        HomeTableWrapper wrapper = null;
         try {
             JAXBContext context = JAXBContext
                     .newInstance(HomeTableWrapper.class);
             Unmarshaller um = context.createUnmarshaller();
 
             // Reading XML from the file and unmarshalling.
-            HomeTableWrapper wrapper = (HomeTableWrapper) um.unmarshal(file);
-
-            formattedAddress.setText(wrapper.getFormattedAddress());
-            homeTable.getItems().clear();
-            homeTable.getItems().addAll(wrapper.getHomes());
+            wrapper = (HomeTableWrapper) um.unmarshal(file);
 
             // Save the file path to the registry.
             setHomeFilePath(file);
@@ -202,19 +172,16 @@ public class MainApp extends Application {
             alert.setHeaderText("Could not load data from file:\n" + file.getPath());
             alert.showAndWait();
         }
+
+        return wrapper;
     }
 
-    public void savePersonDataToFile(File file) {
+    public void savePersonDataToFile(File file, HomeTableWrapper wrapper) {
         try {
             JAXBContext context = JAXBContext
                     .newInstance(HomeTableWrapper.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-            // Wrapping our person data.
-            HomeTableWrapper wrapper = new HomeTableWrapper();
-            wrapper.setFormattedAddress(formattedAddress.getText());
-            wrapper.setHomes(homeTable.getItems());
 
             // Marshalling and saving XML to the file.
             m.marshal(wrapper, file);
@@ -253,5 +220,13 @@ public class MainApp extends Application {
             // Update the stage title.
             primaryStage.setTitle(TITLE_APP);
         }
+    }
+
+    public HomeTableWrapper loadWrapperFromTable() {
+         return realStateOverviewController.getData();
+    }
+
+    public TableView<HomeTable> getHomeTable() {
+        return realStateOverviewController.getHomeTable();
     }
 }

@@ -1,6 +1,7 @@
 package com.carlossamartin.realstatevaluation.controller;
 
 import com.carlossamartin.realstatevaluation.MainApp;
+import com.carlossamartin.realstatevaluation.model.HomeTableWrapper;
 import com.carlossamartin.realstatevaluation.utils.TableViewUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -49,7 +50,7 @@ public class RootLayoutController {
         File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
 
         if (file != null) {
-            mainApp.loadPersonDataFromFile(file);
+            mainApp.loadWrapperFromFile(file);
         }
     }
 
@@ -57,7 +58,8 @@ public class RootLayoutController {
     private void handleSave() {
         File personFile = mainApp.getHomeFilePath();
         if (personFile != null) {
-            mainApp.savePersonDataToFile(personFile);
+            HomeTableWrapper wrapper = mainApp.loadWrapperFromTable();
+            mainApp.savePersonDataToFile(personFile, wrapper);
         } else {
             handleSaveAs();
         }
@@ -80,7 +82,8 @@ public class RootLayoutController {
             if (!file.getPath().endsWith(".xml")) {
                 file = new File(file.getPath() + ".xml");
             }
-            mainApp.savePersonDataToFile(file);
+            HomeTableWrapper wrapper = mainApp.loadWrapperFromTable();
+            mainApp.savePersonDataToFile(file,wrapper);
         }
     }
 

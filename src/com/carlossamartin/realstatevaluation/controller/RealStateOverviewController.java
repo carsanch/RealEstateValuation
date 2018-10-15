@@ -1,6 +1,7 @@
 package com.carlossamartin.realstatevaluation.controller;
 
 import com.carlossamartin.realstatevaluation.MainApp;
+import com.carlossamartin.realstatevaluation.model.HomeTableWrapper;
 import com.carlossamartin.realstatevaluation.model.google.Location;
 import com.carlossamartin.realstatevaluation.model.google.Place;
 import com.carlossamartin.realstatevaluation.model.idealista.AgencyEnum;
@@ -129,6 +130,7 @@ public class RealStateOverviewController {
 
     private Date date;
     private DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    private boolean newSearch;
 
     public RealStateOverviewController() {
     }
@@ -350,7 +352,7 @@ public class RealStateOverviewController {
     private void handleSearch()
     {
         //NEW SEARCH
-        if(this.mainApp.isNewSearch())
+        if(this.newSearch)
         {
             String address = searchField.getText();
             Place place = geocodingClient.getPlace(address);
@@ -365,7 +367,7 @@ public class RealStateOverviewController {
             if(idealistaResponse.getTotalPages() > 1)
             {
                 searchButton.setText("More...");
-                this.mainApp.setNewSearch(false);
+                this.newSearch = false;
             }
         }
         //MORE RESULTS
@@ -377,7 +379,7 @@ public class RealStateOverviewController {
             }else
             {
                 searchButton.setDisable(true);
-                this.mainApp.setNewSearch(true);
+                this.newSearch = true;
             }
         }
 
@@ -477,11 +479,16 @@ public class RealStateOverviewController {
     }
 
     private void calculateFinalPrice() {
-        Double avg1 = Double.parseDouble(standardAvgField1.getText());
-        Double size1 = Double.parseDouble(sizeSummaryField1.getText());
+        String avgText = standardAvgField1.getText();
+        String sizeText = sizeSummaryField1.getText();
 
-        BigDecimal finalPrice = new BigDecimal(avg1 * size1).setScale(2, BigDecimal.ROUND_HALF_UP);
-        standardFinalPriceField1.setText(finalPrice.toString());
+        if(!avgText.isEmpty() && !sizeText.isEmpty()) {
+            Double avg1 = Double.parseDouble(avgText);
+            Double size1 = Double.parseDouble(sizeText);
+
+            BigDecimal finalPrice = new BigDecimal(avg1 * size1).setScale(2, BigDecimal.ROUND_HALF_UP);
+            standardFinalPriceField1.setText(finalPrice.toString());
+        }
     }
 
     /**
@@ -491,10 +498,37 @@ public class RealStateOverviewController {
      */
     public void init(MainApp mainApp) {
         this.mainApp = mainApp;
-        this.mainApp.setHomeTable(homeTable);
-        this.mainApp.setNewSearch(true);
-        this.mainApp.setSearchButton(searchButton);
-        this.mainApp.setFormattedAddress(formattedAddress);
     }
 
+    public TableView<HomeTable> getHomeTable() {
+        return homeTable;
+    }
+    public void setHomeTable(TableView<HomeTable> homeTable) {
+        this.homeTable = homeTable;
+    }
+
+    public void setData(HomeTableWrapper wrapper) {
+        distanceField.setText(wrapper.getDistance());
+        sizeField.setText(wrapper.getSize());
+        formattedAddress.setText(wrapper.getFormattedAddress());
+        homeTable.getItems().clear();
+        homeTable.getItems().addAll(wrapper.getHomes());
+    }
+
+    public HomeTableWrapper getData() {
+        HomeTableWrapper wrapper = new HomeTableWrapper();
+        wrapper.setDistance(distanceField.getText());
+        wrapper.setSize(sizeField.getText());
+        wrapper.setFormattedAddress(formattedAddress.getText());
+        wrapper.setHomes(homeTable.getItems());
+
+        return wrapper;
+    }
+
+    public void clearData() {
+        homeTable.getItems().clear();
+        newSearch = true;
+        searchButton.setText("Search");
+        formattedAddress.setText("");
+    }
 }
