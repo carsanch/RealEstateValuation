@@ -47,7 +47,7 @@
                            </padding>
                         </Label>
                         <Label alignment="TOP_LEFT" text="Size" GridPane.rowIndex="1" />
-                        <TextField fx:id="sizeField" prefHeight="25.0" prefWidth="121.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="sizeField" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="121.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="m2" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets left="10.0" />
@@ -144,7 +144,7 @@
                                                             <Font name="System Bold" size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label prefHeight="21.0" prefWidth="331.0" text="## date ##" textAlignment="RIGHT">
+                                                      <Label fx:id="date1Label" prefHeight="21.0" prefWidth="331.0" text="## date ##" textAlignment="RIGHT">
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
                                                          </font>
@@ -157,11 +157,11 @@
                                                 <HBox alignment="CENTER_LEFT" spacing="5.0">
                                                    <children>
                                                       <Label text="Average €/m2 Standardize" />
-                                                      <TextField fx:id="standardAvgField" />
+                                                      <TextField fx:id="standardAvgField1" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="100.0" />
                                                       <Label text=" x Size " />
-                                                      <TextField fx:id="sizeFactorAvgField" prefHeight="25.0" prefWidth="50.0" />
+                                                      <TextField fx:id="sizeSummaryField1" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="50.0" />
                                                       <Label layoutX="315.0" layoutY="19.0" text=" = " />
-                                                      <TextField fx:id="sizeFactorAvgField2" layoutX="368.0" layoutY="15.0" />
+                                                      <TextField fx:id="standardFinalPriceField1" alignment="CENTER_RIGHT" layoutX="368.0" layoutY="15.0" />
                                                       <Label layoutX="412.0" layoutY="19.0" text="€" />
                                                    </children>
                                                    <padding>
@@ -196,6 +196,11 @@
                                                             <Font name="System Bold" size="15.0" />
                                                          </font>
                                                       </TextField>
+                                                      <Label layoutX="15.0" layoutY="15.0" text=" # ">
+                                                         <font>
+                                                            <Font name="System Bold" size="15.0" />
+                                                         </font>
+                                                      </Label>
                                                       <TextField alignment="CENTER_RIGHT" layoutX="253.0" layoutY="15.0" maxHeight="21.0" minHeight="21.0" prefHeight="21.0" prefWidth="181.0" promptText="#">
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
@@ -209,11 +214,12 @@
                                                 <HBox alignment="CENTER_LEFT" spacing="5.0">
                                                    <children>
                                                       <Label text="Average €/m2 Standardize" />
-                                                      <TextField fx:id="standardAvgField" />
+                                                      <TextField fx:id="standardAvgField2" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="100.0" />
                                                       <Label text=" x Size " />
-                                                      <TextField fx:id="sizeFactorAvgField" prefHeight="25.0" prefWidth="50.0" />
+                                                      <TextField fx:id="sizeSummaryField2" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="50.0" />
+                                                      <Label layoutX="266.0" layoutY="19.0" text=" x Factor " />
                                                       <Label layoutX="315.0" layoutY="19.0" text=" = " />
-                                                      <TextField fx:id="sizeFactorAvgField2" layoutX="368.0" layoutY="15.0" />
+                                                      <TextField fx:id="standardFinalPriceField2" alignment="CENTER_RIGHT" layoutX="368.0" layoutY="15.0" />
                                                       <Label layoutX="412.0" layoutY="19.0" text="€" />
                                                    </children>
                                                    <padding>

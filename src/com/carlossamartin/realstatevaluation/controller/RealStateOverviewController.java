@@ -26,6 +26,11 @@ import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.prefs.Preferences;
 
 public class RealStateOverviewController {
@@ -42,9 +47,6 @@ public class RealStateOverviewController {
 
     @FXML
     private Label formattedAddress;
-
-    @FXML
-    private TextField standardAvgField;
 
     @FXML
     private TableView<HomeTable> homeTable;
@@ -95,7 +97,24 @@ public class RealStateOverviewController {
     @FXML
     private TableColumn<HomeTable, Double> factorProductColumn;
 
+    //Summary Section
+    @FXML
+    private Label date1Label;
 
+    @FXML
+    private TextField standardAvgField1;
+    @FXML
+    private TextField standardAvgField2;
+
+    @FXML
+    private TextField sizeSummaryField1;
+    @FXML
+    private TextField sizeSummaryField2;
+
+    @FXML
+    private TextField standardFinalPriceField1;
+    @FXML
+    private TextField standardFinalPriceField2;
 
     private IdealistaRestClient idealistaClient;
     private GeocodingRestClient geocodingClient;
@@ -108,11 +127,17 @@ public class RealStateOverviewController {
     private String coordinates;
     private String distance;
 
+    private Date date;
+    private DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
     public RealStateOverviewController() {
     }
 
     @FXML
     public void initialize() {
+        date = Calendar.getInstance().getTime();
+        date1Label.setText(df.format(date));
+
         geocodingClient = new GeocodingRestClient();
         idealistaClient = new IdealistaRestClient();
 
@@ -133,6 +158,23 @@ public class RealStateOverviewController {
                 HomeTable selectedItem = homeTable.getSelectionModel().getSelectedItem();
                 homeTable.getItems().remove(selectedItem);
             }
+        });
+
+        sizeField.textProperty().addListener((observable, oldValue, newValue) -> {
+            copySize();
+        });
+
+        standardAvgField1.textProperty().addListener((observable, oldValue, newValue) -> {
+            calculateFinalPrice();
+        });
+        standardAvgField2.textProperty().addListener((observable, oldValue, newValue) -> {
+            calculateFinalPrice();
+        });
+        sizeSummaryField1.textProperty().addListener((observable, oldValue, newValue) -> {
+            calculateFinalPrice();
+        });
+        sizeSummaryField2.textProperty().addListener((observable, oldValue, newValue) -> {
+            calculateFinalPrice();
         });
 
         ContextMenu menu = new ContextMenu();
@@ -299,6 +341,12 @@ public class RealStateOverviewController {
     }
 
     @FXML
+    private void copySize() {
+        sizeSummaryField1.setText(sizeField.getText());
+        sizeSummaryField2.setText(sizeField.getText());
+    }
+
+    @FXML
     private void handleSearch()
     {
         //NEW SEARCH
@@ -422,7 +470,18 @@ public class RealStateOverviewController {
         }
 
         Double avg = summation / count;
-        standardAvgField.setText( String.format("%.2f", avg));
+        String avgText = new BigDecimal(avg).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+
+        standardAvgField1.setText(avgText);
+        standardAvgField2.setText(avgText);
+    }
+
+    private void calculateFinalPrice() {
+        Double avg1 = Double.parseDouble(standardAvgField1.getText());
+        Double size1 = Double.parseDouble(sizeSummaryField1.getText());
+
+        BigDecimal finalPrice = new BigDecimal(avg1 * size1).setScale(2, BigDecimal.ROUND_HALF_UP);
+        standardFinalPriceField1.setText(finalPrice.toString());
     }
 
     /**
