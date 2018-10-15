@@ -33,6 +33,8 @@ public class RealStateOverviewController {
     private Button searchButton;
     @FXML
     private TextField searchField;
+    @FXML
+    private TextField sizeField;
 
     @FXML
     private TextField distanceField;
