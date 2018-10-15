@@ -14,7 +14,7 @@ public class IdealistaCredential {
 
     private final static String SCHEMA = "Bearer";
     private static final String TOKEN_IDEALISTA_URL = "https://api.idealista.com/oauth/token";
-    private static final String TOKEN_IDEALISTA_URL_TEST = "https://2133eee7-3606-4ed4-a7fc-deee0fe036db.mock.pstmn.io/oauth/token";
+    private static final String TOKEN_IDEALISTA_URL_TEST = "https://2c9b0f46-162b-4d95-9d1e-fdc5cd4c91a3.mock.pstmn.io/oauth/token";
 
 
     private static String token;

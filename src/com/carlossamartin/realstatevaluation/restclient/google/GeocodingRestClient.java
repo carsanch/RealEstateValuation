@@ -16,7 +16,7 @@ import java.util.prefs.Preferences;
 public class GeocodingRestClient {
 
     private static final String GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
-    private static final String GOOGLE_API_URL_TEST ="https://2133eee7-3606-4ed4-a7fc-deee0fe036db.mock.pstmn.io/maps/api/geocode/json";
+    private static final String GOOGLE_API_URL_TEST ="https://2c9b0f46-162b-4d95-9d1e-fdc5cd4c91a3.mock.pstmn.io/maps/api/geocode/json";
 
     private static Preferences preferences;
 

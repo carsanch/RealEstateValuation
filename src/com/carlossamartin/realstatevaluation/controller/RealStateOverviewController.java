@@ -23,6 +23,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
+import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
 import java.util.prefs.Preferences;
@@ -33,6 +34,8 @@ public class RealStateOverviewController {
     private Button searchButton;
     @FXML
     private TextField searchField;
+    @FXML
+    private TextField sizeField;
 
     @FXML
     private TextField distanceField;
@@ -53,6 +56,8 @@ public class RealStateOverviewController {
     @FXML
     private TableColumn<HomeTable, Integer> distanceColumn;
     @FXML
+    private TableColumn<HomeTable, Double> distanceFactorColumn;
+    @FXML
     private TableColumn<HomeTable, String> propertyCodeColumn;
     @FXML
     private TableColumn<HomeTable, Double> priceColumn;
@@ -67,8 +72,6 @@ public class RealStateOverviewController {
     @FXML
     private TableColumn<HomeTable, Double> agencyFactorColumn;
     @FXML
-    private TableColumn<HomeTable, Double> tunedPriceColumn;
-    @FXML
     private TableColumn<HomeTable, String> addressColumn;
     @FXML
     private TableColumn<HomeTable, String> urlColumn;
@@ -77,6 +80,21 @@ public class RealStateOverviewController {
     private TableColumn<HomeTable, Double> latitudeColumn;
     @FXML
     private TableColumn<HomeTable, Double> longitudeColumn;
+
+    @FXML
+    private TableColumn<HomeTable, Double> ageFactorColumn;
+    @FXML
+    private TableColumn<HomeTable, Double> qualityFactorColumn;
+    @FXML
+    private TableColumn<HomeTable, String> otherColumn;
+    @FXML
+    private TableColumn<HomeTable, Double> otherFactorColumn;
+
+    @FXML
+    private TableColumn<HomeTable, Double> standardPriceColumn;
+    @FXML
+    private TableColumn<HomeTable, Double> factorProductColumn;
+
 
 
     private IdealistaRestClient idealistaClient;
@@ -128,8 +146,12 @@ public class RealStateOverviewController {
                     public Observable[] call(HomeTable param) {
                         return new Observable[]{
                                 param.enabledProperty(),
+                                param.distanceFactorProperty(),
                                 param.agencyFactorProperty(),
-                                param.sizeFactorProperty()
+                                param.sizeFactorProperty(),
+                                param.ageFactorProperty(),
+                                param.qualityFactorProperty(),
+                                param.otherFactorProperty()
                         };
                     }
                 }
@@ -137,7 +159,8 @@ public class RealStateOverviewController {
         data.addListener((ListChangeListener<? super HomeTable>) c ->
         {
             calculateSizeFactor();
-            calculateTunedPrice();
+            calculateFactorProduct();
+            calculateStandardPrice();
             calculateAvgFactor();
         });
 
@@ -160,7 +183,21 @@ public class RealStateOverviewController {
             }
         });
         idColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("id"));
+
         distanceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Integer>("distance"));
+        distanceFactorColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("distanceFactor"));
+        distanceFactorColumn.setCellFactory(TextFieldTableCell.<HomeTable,Double> forTableColumn(new DoubleStringConverter()));
+        distanceFactorColumn.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<HomeTable, Double>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<HomeTable, Double> t) {
+                        ((HomeTable) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setDistanceFactor(t.getNewValue());
+                    }
+                }
+        );
+
         propertyCodeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("propertyCode"));
 
         priceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable, Double>("price"));
@@ -196,13 +233,66 @@ public class RealStateOverviewController {
                 }
         );
 
-        tunedPriceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("tunedPrice"));
-
         addressColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("address"));
         urlColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("url"));
 
         latitudeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("latitude"));
         longitudeColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("longitude"));
+
+        ageFactorColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("ageFactor"));
+        ageFactorColumn.setCellFactory(TextFieldTableCell.<HomeTable,Double> forTableColumn(new DoubleStringConverter()));
+        ageFactorColumn.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<HomeTable, Double>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<HomeTable, Double> t) {
+                        ((HomeTable) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setAgeFactor(t.getNewValue());
+                    }
+                }
+        );
+
+        qualityFactorColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("qualityFactor"));
+        qualityFactorColumn.setCellFactory(TextFieldTableCell.<HomeTable,Double> forTableColumn(new DoubleStringConverter()));
+        qualityFactorColumn.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<HomeTable, Double>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<HomeTable, Double> t) {
+                        ((HomeTable) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setQualityFactor(t.getNewValue());
+                    }
+                }
+        );
+
+        otherColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("other"));
+        otherColumn.setCellFactory(TextFieldTableCell.<HomeTable,String> forTableColumn(new DefaultStringConverter()));
+        otherColumn.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<HomeTable, String>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<HomeTable, String> t) {
+                        ((HomeTable) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setOther(t.getNewValue());
+                    }
+                }
+        );
+
+        otherFactorColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("otherFactor"));
+        otherFactorColumn.setCellFactory(TextFieldTableCell.<HomeTable,Double> forTableColumn(new DoubleStringConverter()));
+        otherFactorColumn.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<HomeTable, Double>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<HomeTable, Double> t) {
+                        ((HomeTable) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setOtherFactor(t.getNewValue());
+                    }
+                }
+        );
+
+        factorProductColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("factorProduct"));
+        standardPriceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("standardPrice"));
 
         homeTable.setItems(data);
 
@@ -288,15 +378,16 @@ public class RealStateOverviewController {
                 home.setAgencyFactor(1.00);
             }
 
-            home.calculateTunedPrice();
+            home.calculateFactorProduct();
+            home.calculateStandardPrice();
             homeTable.refresh();
         }
     }
 
-    private void calculateTunedPrice() {
+    private void calculateStandardPrice() {
         HomeTable selectedItem = homeTable.getSelectionModel().getSelectedItem();
         if(null != selectedItem) {
-            selectedItem.calculateTunedPrice();
+            selectedItem.calculateStandardPrice();
             homeTable.refresh();
         }
     }
@@ -310,6 +401,15 @@ public class RealStateOverviewController {
         }
     }
 
+    private void calculateFactorProduct()
+    {
+        HomeTable selectedItem = homeTable.getSelectionModel().getSelectedItem();
+        if(null != selectedItem){
+            selectedItem.calculateFactorProduct();
+            homeTable.refresh();
+        }
+    }
+
     private void calculateAvgFactor()
     {
         Double summation = 0.0;
@@ -317,12 +417,12 @@ public class RealStateOverviewController {
         for (HomeTable home : data) {
             if(home.isEnabled()){
                 count++;
-                summation += home.getAgencyFactor();
+                summation += home.getFactorProduct();
             }
         }
 
         Double avg = summation / count;
-        factorAvgField.setText( String.format("%.4f", avg));
+        factorAvgField.setText( String.format("%.2f", avg));
     }
 
     /**
