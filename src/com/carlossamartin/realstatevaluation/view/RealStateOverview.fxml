@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carlossamartin.realstatevaluation.controller.RealStateOverviewController">
+<AnchorPane prefHeight="600.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carlossamartin.realstatevaluation.controller.RealStateOverviewController">
    <children>
       <SplitPane dividerPositions="0.1606425702811245" layoutY="1.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="808.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -106,7 +106,8 @@
                                  <columns>
                                     <TableColumn fx:id="sizeColumn" prefWidth="50.0" text="m2" />
                                     <TableColumn fx:id="sizeFactorColumn" prefWidth="50.0" text="#" />
-                                 </columns></TableColumn>
+                                 </columns>
+                              </TableColumn>
                               <TableColumn fx:id="priceSizeColumn" prefWidth="75.0" text="Price / Size" />
                               <TableColumn prefWidth="75.0" text="Age">
                                  <columns>
@@ -128,10 +129,107 @@
                               <TableColumn fx:id="standardPriceColumn" prefWidth="75.0" text="€/m2 Standardize" />
                           </columns>
                         </TableView>
-                        <Pane prefHeight="100.0" prefWidth="1248.0">
+                        <HBox>
                            <children>
-                              <TextField fx:id="factorAvgField" layoutX="457.0" layoutY="21.0" />
-                           </children></Pane>
+                              <SplitPane dividerPositions="0.5">
+                                 <items>
+                                    <AnchorPane prefHeight="100.0" prefWidth="1248.0">
+                                       <children>
+                                          <VBox prefHeight="100.0" prefWidth="625.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <HBox spacing="5.0">
+                                                   <children>
+                                                      <Label text="Value of the property assessed at ">
+                                                         <font>
+                                                            <Font name="System Bold" size="15.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label prefHeight="21.0" prefWidth="331.0" text="## date ##" textAlignment="RIGHT">
+                                                         <font>
+                                                            <Font name="System Bold" size="15.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                                   <children>
+                                                      <Label text="Average € / m2 Standardize" />
+                                                      <TextField fx:id="factorAvgField" />
+                                                      <Label text=" x Size = " />
+                                                      <TextField fx:id="sizeFactorAvgField" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <TextField promptText="written number">
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </padding>
+                                                </TextField>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="100.0" prefWidth="1248.0">
+                                       <children>
+                                          <VBox prefHeight="100.0" prefWidth="625.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <HBox spacing="5.0">
+                                                   <children>
+                                                      <Label text="Value of the property assessed at ">
+                                                         <font>
+                                                            <Font name="System Bold" size="15.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField alignment="CENTER_RIGHT" maxHeight="21.0" minHeight="21.0" prefHeight="21.0" promptText="## date ##">
+                                                         <font>
+                                                            <Font name="System Bold" size="15.0" />
+                                                         </font>
+                                                      </TextField>
+                                                      <TextField alignment="CENTER_RIGHT" layoutX="253.0" layoutY="15.0" maxHeight="21.0" minHeight="21.0" prefHeight="21.0" promptText="#">
+                                                         <font>
+                                                            <Font name="System Bold" size="15.0" />
+                                                         </font>
+                                                      </TextField>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                                   <children>
+                                                      <Label text="Average € / m2 Standardize" />
+                                                      <TextField fx:id="factorAvgField2" />
+                                                      <Label text=" x Size = " />
+                                                      <TextField fx:id="sizeFactorAvgField1" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <TextField promptText="written number">
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </padding>
+                                                </TextField>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </items>
+                              </SplitPane>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
