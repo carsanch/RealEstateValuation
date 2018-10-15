@@ -44,40 +44,61 @@
                      <children>
                         <TableView fx:id="homeTable" editable="true" prefHeight="400.0" prefWidth="1248.0">
                           <columns>
-                              <TableColumn fx:id="enabledColumn" prefWidth="30.0" />
-                              <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
-                              <TableColumn fx:id="distanceColumn" prefWidth="75.0" text="Distance">
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="distance" />
-                                  </cellValueFactory>
-                              </TableColumn>
-                            <TableColumn fx:id="propertyCodeColumn" prefWidth="100.0" text="Property Code" />
-                            <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
-                              <TableColumn prefWidth="75.0" text="Size">
-                                 <columns>
-                                    <TableColumn fx:id="sizeColumn" prefWidth="75.0" text="m2" />
-                                    <TableColumn fx:id="sizeFactorColumn" prefWidth="75.0" text="Factor" />
-                                 </columns></TableColumn>
-                              <TableColumn fx:id="priceSizeColumn" prefWidth="75.0" text="Price / Size" />
-                              <TableColumn fx:id="agencyGroupColumn" prefWidth="100.0" text="Agency">
-                                 <columns>
-                                    <TableColumn fx:id="agencyColumn" prefWidth="50.0" text="Agency" />
-                                     <TableColumn fx:id="agencyFactorColumn" prefWidth="50.0" text="Factor">
-                                         <cellValueFactory>
-                                             <PropertyValueFactory property="factor" />
-                                         </cellValueFactory>
-                                     </TableColumn>
-                                 </columns>
-                              </TableColumn>
-                              <TableColumn fx:id="tunedPriceColumn" prefWidth="75.0" text="Tuned Price" />
-                              <TableColumn fx:id="addressColumn" prefWidth="300.0" text="Address" />
+                              <TableColumn fx:id="enabledColumn" prefWidth="25.0" />
+                              <TableColumn fx:id="idColumn" prefWidth="25.0" text="ID" />
+                            <TableColumn fx:id="propertyCodeColumn" prefWidth="90.0" text="Property Code" />
+                              <TableColumn fx:id="urlColumn" prefWidth="50.0" text="Url" />
+                              <TableColumn fx:id="addressColumn" prefWidth="50.0" text="Address" />
                               <TableColumn fx:id="coordenatesGroupColumn" prefWidth="200.0" text="Coordenates">
                                  <columns>
                                     <TableColumn fx:id="latitudeColumn" prefWidth="75.0" text="Lat" />
                                     <TableColumn fx:id="longitudeColumn" prefWidth="75.0" text="Long" />
                                  </columns>
                               </TableColumn>
-                              <TableColumn fx:id="urlColumn" prefWidth="300.0" text="Url" />
+                              <TableColumn prefWidth="75.0" text="Distance">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="distance" />
+                                  </cellValueFactory>
+                                 <columns>
+                                    <TableColumn fx:id="distanceColumn" prefWidth="50.0" text="m2" />
+                                    <TableColumn fx:id="distanceFactorColumn" prefWidth="50.0" text="#" />
+                                 </columns>
+                              </TableColumn>
+                              <TableColumn fx:id="agencyGroupColumn" prefWidth="100.0" text="Agency">
+                                 <columns>
+                                    <TableColumn fx:id="agencyColumn" prefWidth="50.0" text="Agency" />
+                                     <TableColumn fx:id="agencyFactorColumn" prefWidth="50.0" text="#">
+                                         <cellValueFactory>
+                                             <PropertyValueFactory property="factor" />
+                                         </cellValueFactory>
+                                     </TableColumn>
+                                 </columns>
+                              </TableColumn>
+                            <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
+                              <TableColumn prefWidth="75.0" text="Size">
+                                 <columns>
+                                    <TableColumn fx:id="sizeColumn" prefWidth="50.0" text="m2" />
+                                    <TableColumn fx:id="sizeFactorColumn" prefWidth="50.0" text="#" />
+                                 </columns></TableColumn>
+                              <TableColumn fx:id="priceSizeColumn" prefWidth="75.0" text="Price / Size" />
+                              <TableColumn prefWidth="75.0" text="Age">
+                                 <columns>
+                                    <TableColumn fx:id="ageFactorColumn" prefWidth="50.0" text="#" />
+                                 </columns>
+                              </TableColumn>
+                              <TableColumn prefWidth="75.0" text="Quality">
+                                 <columns>
+                                    <TableColumn fx:id="qualityFactorColumn" prefWidth="50.0" text="#" />
+                                 </columns>
+                              </TableColumn>
+                              <TableColumn prefWidth="75.0" text="Other">
+                                 <columns>
+                                    <TableColumn fx:id="otherColumn" prefWidth="100.0" text="Desc." />
+                                    <TableColumn fx:id="otherFactorColumn" prefWidth="75.0" text="#" />
+                                 </columns>
+                              </TableColumn>
+                              <TableColumn fx:id="factorProductColumn" prefWidth="75.0" text="TOTAL #" />
+                              <TableColumn fx:id="standardPriceColumn" prefWidth="75.0" text="€/m2 Standardize" />
                           </columns>
                         </TableView>
                         <Pane prefHeight="100.0" prefWidth="1248.0">

@@ -53,6 +53,8 @@ public class RealStateOverviewController {
     @FXML
     private TableColumn<HomeTable, Integer> distanceColumn;
     @FXML
+    private TableColumn<HomeTable, Integer> distanceFactorColumn;
+    @FXML
     private TableColumn<HomeTable, String> propertyCodeColumn;
     @FXML
     private TableColumn<HomeTable, Double> priceColumn;
@@ -67,8 +69,6 @@ public class RealStateOverviewController {
     @FXML
     private TableColumn<HomeTable, Double> agencyFactorColumn;
     @FXML
-    private TableColumn<HomeTable, Double> tunedPriceColumn;
-    @FXML
     private TableColumn<HomeTable, String> addressColumn;
     @FXML
     private TableColumn<HomeTable, String> urlColumn;
@@ -77,6 +77,21 @@ public class RealStateOverviewController {
     private TableColumn<HomeTable, Double> latitudeColumn;
     @FXML
     private TableColumn<HomeTable, Double> longitudeColumn;
+
+    @FXML
+    private TableColumn<HomeTable, Double> ageFactorColumn;
+    @FXML
+    private TableColumn<HomeTable, Double> qualityFactorColumn;
+    @FXML
+    private TableColumn<HomeTable, String> otherColumn;
+    @FXML
+    private TableColumn<HomeTable, Double> otherFactorColumn;
+
+    @FXML
+    private TableColumn<HomeTable, Double> standardPriceColumn;
+    @FXML
+    private TableColumn<HomeTable, Double> factorProductColumn;
+
 
 
     private IdealistaRestClient idealistaClient;
@@ -196,7 +211,7 @@ public class RealStateOverviewController {
                 }
         );
 
-        tunedPriceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("tunedPrice"));
+        standardPriceColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Double>("tunedPrice"));
 
         addressColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("address"));
         urlColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,String>("url"));
