@@ -44,7 +44,7 @@ public class RealStateOverviewController {
     private Label formattedAddress;
 
     @FXML
-    private TextField factorAvgField;
+    private TextField standardAvgField;
 
     @FXML
     private TableView<HomeTable> homeTable;
@@ -161,7 +161,7 @@ public class RealStateOverviewController {
             calculateSizeFactor();
             calculateFactorProduct();
             calculateStandardPrice();
-            calculateAvgFactor();
+            calculateAvgStandard();
         });
 
         enabledColumn.setCellValueFactory(new PropertyValueFactory<HomeTable,Boolean>("enabled"));
@@ -410,19 +410,19 @@ public class RealStateOverviewController {
         }
     }
 
-    private void calculateAvgFactor()
+    private void calculateAvgStandard()
     {
         Double summation = 0.0;
         int count = 0;
         for (HomeTable home : data) {
             if(home.isEnabled()){
                 count++;
-                summation += home.getFactorProduct();
+                summation += home.getStandardPrice();
             }
         }
 
         Double avg = summation / count;
-        factorAvgField.setText( String.format("%.2f", avg));
+        standardAvgField.setText( String.format("%.2f", avg));
     }
 
     /**

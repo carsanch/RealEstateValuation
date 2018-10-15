@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 
 public class HomeTable {
 
+    private static final int SCALE = 2;
+
     private BooleanProperty enabled;
     private IntegerProperty id;
     private StringProperty propertyCode;
@@ -116,17 +118,17 @@ public class HomeTable {
 
     public void calculateSizePrice() {
        this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() /
-               this.size.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+               this.size.doubleValue()).setScale(SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     public void calculateFactorProduct() {
         this.factorProduct = new SimpleDoubleProperty(new BigDecimal(this.sizeFactor.doubleValue() * this.distanceFactor.doubleValue() * this.agencyFactor.doubleValue()
-                * this.ageFactor.doubleValue() *this.qualityFactor.doubleValue() * this.otherFactor.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+                * this.ageFactor.doubleValue() *this.qualityFactor.doubleValue() * this.otherFactor.doubleValue()).setScale(SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     public void calculateStandardPrice() {
         this.standardPrice = new SimpleDoubleProperty(new BigDecimal(this.factorProduct.doubleValue()
-                * this.priceSize.doubleValue()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+                * this.priceSize.doubleValue()).setScale(SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     public boolean isEnabled() {

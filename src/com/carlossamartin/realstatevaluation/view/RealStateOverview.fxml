@@ -156,10 +156,13 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" spacing="5.0">
                                                    <children>
-                                                      <Label text="Average € / m2 Standardize" />
-                                                      <TextField fx:id="factorAvgField" />
-                                                      <Label text=" x Size = " />
-                                                      <TextField fx:id="sizeFactorAvgField" />
+                                                      <Label text="Average €/m2 Standardize" />
+                                                      <TextField fx:id="standardAvgField" />
+                                                      <Label text=" x Size " />
+                                                      <TextField fx:id="sizeFactorAvgField" prefHeight="25.0" prefWidth="50.0" />
+                                                      <Label layoutX="315.0" layoutY="19.0" text=" = " />
+                                                      <TextField fx:id="sizeFactorAvgField2" layoutX="368.0" layoutY="15.0" />
+                                                      <Label layoutX="412.0" layoutY="19.0" text="€" />
                                                    </children>
                                                    <padding>
                                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -188,12 +191,12 @@
                                                             <Font name="System Bold" size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <TextField alignment="CENTER_RIGHT" maxHeight="21.0" minHeight="21.0" prefHeight="21.0" promptText="## date ##">
+                                                      <TextField alignment="CENTER_RIGHT" maxHeight="21.0" minHeight="21.0" prefHeight="21.0" prefWidth="138.0" promptText="## date ##">
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
                                                          </font>
                                                       </TextField>
-                                                      <TextField alignment="CENTER_RIGHT" layoutX="253.0" layoutY="15.0" maxHeight="21.0" minHeight="21.0" prefHeight="21.0" promptText="#">
+                                                      <TextField alignment="CENTER_RIGHT" layoutX="253.0" layoutY="15.0" maxHeight="21.0" minHeight="21.0" prefHeight="21.0" prefWidth="181.0" promptText="#">
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
                                                          </font>
@@ -205,10 +208,13 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" spacing="5.0">
                                                    <children>
-                                                      <Label text="Average € / m2 Standardize" />
-                                                      <TextField fx:id="factorAvgField2" />
-                                                      <Label text=" x Size = " />
-                                                      <TextField fx:id="sizeFactorAvgField1" />
+                                                      <Label text="Average €/m2 Standardize" />
+                                                      <TextField fx:id="standardAvgField" />
+                                                      <Label text=" x Size " />
+                                                      <TextField fx:id="sizeFactorAvgField" prefHeight="25.0" prefWidth="50.0" />
+                                                      <Label layoutX="315.0" layoutY="19.0" text=" = " />
+                                                      <TextField fx:id="sizeFactorAvgField2" layoutX="368.0" layoutY="15.0" />
+                                                      <Label layoutX="412.0" layoutY="19.0" text="€" />
                                                    </children>
                                                    <padding>
                                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
