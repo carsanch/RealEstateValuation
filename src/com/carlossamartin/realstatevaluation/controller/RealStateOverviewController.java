@@ -11,6 +11,7 @@ import com.carlossamartin.realstatevaluation.restclient.google.GeocodingRestClie
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaResponse;
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRestClient;
 import com.carlossamartin.realstatevaluation.restclient.idealista.ParsingAgencyClient;
+import com.carlossamartin.realstatevaluation.utils.Constants;
 import com.carlossamartin.realstatevaluation.utils.TableViewUtils;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -466,7 +467,7 @@ public class RealStateOverviewController {
         }
 
         Double avg = summation / count;
-        String avgText = new BigDecimal(avg).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+        String avgText = new BigDecimal(avg).setScale(Constants.SCALE, BigDecimal.ROUND_HALF_UP).toString();
 
         standardAvgField1.setText(avgText);
         standardAvgField2.setText(avgText);
@@ -524,7 +525,10 @@ public class RealStateOverviewController {
 
         date1Label.setText(wrapper.getCurrentDate());
         date2TextField.setText(wrapper.getBeforeDate());
-        summaryFactorField.setText(wrapper.getFactorBeforeDate().toString());
+
+        if (null != wrapper.getFactorBeforeDate()) {
+            summaryFactorField.setText(wrapper.getFactorBeforeDate().toString());
+        }
 
         formattedAddress.setText(wrapper.getFormattedAddress());
         homeTable.getItems().clear();
@@ -540,7 +544,9 @@ public class RealStateOverviewController {
         wrapper.setCurrentDate(date1Label.getText());
         wrapper.setBeforeDate(date2TextField.getText());
 
-        wrapper.setFactorBeforeDate(Double.parseDouble(summaryFactorField.getText()));
+        if (!summaryFactorField.getText().isEmpty()) {
+            wrapper.setFactorBeforeDate(Double.parseDouble(summaryFactorField.getText()));
+        }
 
         wrapper.setFormattedAddress(formattedAddress.getText());
         wrapper.setHomes(homeTable.getItems());
