@@ -1,15 +1,14 @@
 package com.carlossamartin.realstatevaluation;
 
-import com.carlossamartin.realstatevaluation.model.HomeTable;
-import com.carlossamartin.realstatevaluation.model.HomeTableWrapper;
 import com.carlossamartin.realstatevaluation.controller.RealStateOverviewController;
 import com.carlossamartin.realstatevaluation.controller.RootLayoutController;
 import com.carlossamartin.realstatevaluation.controller.SettingsViewController;
+import com.carlossamartin.realstatevaluation.model.HomeTable;
+import com.carlossamartin.realstatevaluation.model.HomeTableWrapper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -88,16 +87,42 @@ public class MainApp extends Application {
             realStateOverviewController = loader.getController();
             realStateOverviewController.init(this);
 
-            // Try to load last opened person file.
-            File file = getHomeFilePath();
-            if (file != null) {
-                HomeTableWrapper wrapper = loadWrapperFromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-                if(wrapper != null)
-                {
-                    realStateOverviewController.setData(wrapper);
-                }
-            }
+        // Try to load last opened person file.
+        File file = getHomeFilePath();
+        if (file != null) {
+            loadWrapperFromFile(file);
+        }
+    }
+
+    /**
+     * Shows the person overview inside the root layout.
+     */
+    public void showSettingView() {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/SettingsView.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Preferences");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            SettingsViewController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.init(this);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,38 +130,8 @@ public class MainApp extends Application {
     }
 
     /**
-     * Shows the person overview inside the root layout.
-     */
-    public void showSettingView()     {
-        try {
-        // Load the fxml file and create a new stage for the popup dialog.
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainApp.class.getResource("view/SettingsView.fxml"));
-        AnchorPane page = (AnchorPane) loader.load();
-
-        // Create the dialog Stage.
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Preferences");
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        dialogStage.initOwner(primaryStage);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-
-        // Set the person into the controller.
-        SettingsViewController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        controller.init(this);
-
-        // Show the dialog and wait until the user closes it
-        dialogStage.showAndWait();
-
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-
-    /**
      * Returns the main stage.
+     *
      * @return
      */
     public Stage getPrimaryStage() {
@@ -147,20 +142,16 @@ public class MainApp extends Application {
         launch(args);
     }
 
-    public void clearData() {
-        realStateOverviewController.clearData();
-    }
+    public void loadWrapperFromFile(File file) {
 
-    public HomeTableWrapper loadWrapperFromFile(File file) {
-
-        HomeTableWrapper wrapper = null;
         try {
             JAXBContext context = JAXBContext
                     .newInstance(HomeTableWrapper.class);
             Unmarshaller um = context.createUnmarshaller();
 
             // Reading XML from the file and unmarshalling.
-            wrapper = (HomeTableWrapper) um.unmarshal(file);
+            HomeTableWrapper wrapper = (HomeTableWrapper) um.unmarshal(file);
+            realStateOverviewController.setHomeTableFromHomeTableWrapper(wrapper);
 
             // Save the file path to the registry.
             setHomeFilePath(file);
@@ -173,7 +164,6 @@ public class MainApp extends Application {
             alert.showAndWait();
         }
 
-        return wrapper;
     }
 
     public void savePersonDataToFile(File file, HomeTableWrapper wrapper) {
@@ -222,8 +212,12 @@ public class MainApp extends Application {
         }
     }
 
+    public void clearData() {
+        realStateOverviewController.clearData();
+    }
+
     public HomeTableWrapper loadWrapperFromTable() {
-         return realStateOverviewController.getData();
+        return realStateOverviewController.getHomeTableWrapperFromHomeTable();
     }
 
     public TableView<HomeTable> getHomeTable() {

@@ -12,6 +12,11 @@ public class HomeTableWrapper {
     private String distance;
     private List<HomeTable> homes;
 
+    private String currentDate;
+    private String beforeDate;
+
+    private Double factorBeforeDate;
+
     @XmlElement(name = "home")
     public List<HomeTable> getHomes() {
         return homes;
@@ -46,5 +51,32 @@ public class HomeTableWrapper {
 
     public void setDistance(String distance) {
         this.distance = distance;
+    }
+
+    @XmlElement(name = "currentDate")
+    public String getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(String currentDate) {
+        this.currentDate = currentDate;
+    }
+
+    @XmlElement(name = "beforeDate")
+    public String getBeforeDate() {
+        return beforeDate;
+    }
+
+    public void setBeforeDate(String beforeDate) {
+        this.beforeDate = beforeDate;
+    }
+
+    @XmlElement(name = "factorBeforeDate")
+    public Double getFactorBeforeDate() {
+        return factorBeforeDate;
+    }
+
+    public void setFactorBeforeDate(Double factorBeforeDate) {
+        this.factorBeforeDate = factorBeforeDate;
     }
 }

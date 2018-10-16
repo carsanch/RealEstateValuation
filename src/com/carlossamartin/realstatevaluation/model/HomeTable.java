@@ -120,13 +120,13 @@ public class HomeTable {
     }
 
     public void calculateSizePrice() {
-       this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() /
-               this.size.doubleValue()).setScale(SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
+        this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() /
+                this.size.doubleValue()).setScale(SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     public void calculateFactorProduct() {
         this.factorProduct = new SimpleDoubleProperty(new BigDecimal(this.sizeFactor.doubleValue() * this.distanceFactor.doubleValue() * this.agencyFactor.doubleValue()
-                * this.ageFactor.doubleValue() *this.qualityFactor.doubleValue() * this.otherFactor.doubleValue()).setScale(SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
+                * this.ageFactor.doubleValue() * this.qualityFactor.doubleValue() * this.otherFactor.doubleValue()).setScale(SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     public void calculateStandardPrice() {

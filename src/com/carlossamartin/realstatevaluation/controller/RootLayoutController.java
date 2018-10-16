@@ -14,6 +14,7 @@ public class RootLayoutController {
 
     // Reference to the main application
     private MainApp mainApp;
+
     public void init(MainApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -37,6 +38,7 @@ public class RootLayoutController {
     private void handleSettings() {
         this.mainApp.showSettingView();
     }
+
     @FXML
     private void handleOpen() {
         FileChooser fileChooser = new FileChooser();
@@ -56,10 +58,10 @@ public class RootLayoutController {
 
     @FXML
     private void handleSave() {
-        File personFile = mainApp.getHomeFilePath();
-        if (personFile != null) {
+        File file = mainApp.getHomeFilePath();
+        if (file != null) {
             HomeTableWrapper wrapper = mainApp.loadWrapperFromTable();
-            mainApp.savePersonDataToFile(personFile, wrapper);
+            mainApp.savePersonDataToFile(file, wrapper);
         } else {
             handleSaveAs();
         }
@@ -83,19 +85,17 @@ public class RootLayoutController {
                 file = new File(file.getPath() + ".xml");
             }
             HomeTableWrapper wrapper = mainApp.loadWrapperFromTable();
-            mainApp.savePersonDataToFile(file,wrapper);
+            mainApp.savePersonDataToFile(file, wrapper);
         }
     }
 
     @FXML
-    private void handleCopy()
-    {
+    private void handleCopy() {
         TableViewUtils.copySelectedToClipBoard(this.mainApp.getHomeTable());
     }
 
     @FXML
-    private void handleCopyAll()
-    {
+    private void handleCopyAll() {
         this.mainApp.getHomeTable().getSelectionModel().selectAll();
         TableViewUtils.copySelectedToClipBoard(this.mainApp.getHomeTable(), true);
         this.mainApp.getHomeTable().getSelectionModel().clearSelection();
