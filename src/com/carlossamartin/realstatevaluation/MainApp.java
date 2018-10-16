@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -38,6 +39,9 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle(TITLE_APP);
+
+        //Set Icon
+        this.primaryStage.getIcons().add(new Image("file:resources/images/blue-home-icon.png"));
 
         preferences = Preferences.userNodeForPackage(MainApp.class);
 

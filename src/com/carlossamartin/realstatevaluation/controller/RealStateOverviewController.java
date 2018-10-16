@@ -25,6 +25,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
@@ -37,6 +39,9 @@ import java.util.Date;
 import java.util.prefs.Preferences;
 
 public class RealStateOverviewController {
+
+    @FXML
+    private ImageView icoImageView;
 
     @FXML
     private Button searchButton;
@@ -149,6 +154,8 @@ public class RealStateOverviewController {
 
     @FXML
     public void initialize() {
+        icoImageView.setImage(new Image("file:resources/images/blue-home-icon.png"));
+
         date = Calendar.getInstance().getTime();
         date1Label.setText(df.format(date));
 
