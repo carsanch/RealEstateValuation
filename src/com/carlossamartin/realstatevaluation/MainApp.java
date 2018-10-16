@@ -1,16 +1,14 @@
 package com.carlossamartin.realstatevaluation;
 
-import com.carlossamartin.realstatevaluation.model.HomeTableWrapper;
-import com.carlossamartin.realstatevaluation.model.HomeTable;
 import com.carlossamartin.realstatevaluation.controller.RealStateOverviewController;
 import com.carlossamartin.realstatevaluation.controller.RootLayoutController;
 import com.carlossamartin.realstatevaluation.controller.SettingsViewController;
+import com.carlossamartin.realstatevaluation.model.HomeTable;
+import com.carlossamartin.realstatevaluation.model.HomeTableWrapper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -32,37 +30,7 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
-    private Button searchButton;
-    public Button getSearchButton() {
-        return searchButton;
-    }
-    public void setSearchButton(Button searchButton) {
-        this.searchButton = searchButton;
-    }
-
-    private Label formattedAddress;
-    public Label getFormattedAddress() {
-        return formattedAddress;
-    }
-    public void setFormattedAddress(Label formattedAddress) {
-        this.formattedAddress = formattedAddress;
-    }
-
-    private TableView<HomeTable> homeTable;
-    public TableView<HomeTable> getHomeTable() {
-        return homeTable;
-    }
-    public void setHomeTable(TableView<HomeTable> homeTable) {
-        this.homeTable = homeTable;
-    }
-
-    private boolean newSearch;
-    public boolean isNewSearch() {
-        return newSearch;
-    }
-    public void setNewSearch(boolean newSearch) {
-        this.newSearch = newSearch;
-    }
+    private RealStateOverviewController realStateOverviewController;
 
     private Preferences preferences;
 
@@ -116,8 +84,9 @@ public class MainApp extends Application {
             rootLayout.setCenter(realStateOverview);
 
             // Give the controller access to the main app.
-            RealStateOverviewController controller = loader.getController();
-            controller.init(this);
+            realStateOverviewController = loader.getController();
+            realStateOverviewController.init(this);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,43 +94,44 @@ public class MainApp extends Application {
         // Try to load last opened person file.
         File file = getHomeFilePath();
         if (file != null) {
-            loadPersonDataFromFile(file);
+            loadWrapperFromFile(file);
         }
     }
 
     /**
      * Shows the person overview inside the root layout.
      */
-    public void showSettingView()     {
+    public void showSettingView() {
         try {
-        // Load the fxml file and create a new stage for the popup dialog.
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainApp.class.getResource("view/SettingsView.fxml"));
-        AnchorPane page = (AnchorPane) loader.load();
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/SettingsView.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
 
-        // Create the dialog Stage.
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Preferences");
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        dialogStage.initOwner(primaryStage);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Preferences");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
 
-        // Set the person into the controller.
-        SettingsViewController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        controller.init(this);
+            // Set the person into the controller.
+            SettingsViewController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.init(this);
 
-        // Show the dialog and wait until the user closes it
-        dialogStage.showAndWait();
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
 
-    } catch (IOException e) {
-        e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
 
     /**
      * Returns the main stage.
+     *
      * @return
      */
     public Stage getPrimaryStage() {
@@ -172,14 +142,8 @@ public class MainApp extends Application {
         launch(args);
     }
 
-    public void clearData() {
-        this.homeTable.getItems().clear();
-        this.newSearch = true;
-        this.searchButton.setText("Search");
-        this.formattedAddress.setText("");
-    }
+    public void loadWrapperFromFile(File file) {
 
-    public void loadPersonDataFromFile(File file) {
         try {
             JAXBContext context = JAXBContext
                     .newInstance(HomeTableWrapper.class);
@@ -187,10 +151,7 @@ public class MainApp extends Application {
 
             // Reading XML from the file and unmarshalling.
             HomeTableWrapper wrapper = (HomeTableWrapper) um.unmarshal(file);
-
-            formattedAddress.setText(wrapper.getFormattedAddress());
-            homeTable.getItems().clear();
-            homeTable.getItems().addAll(wrapper.getHomes());
+            realStateOverviewController.setHomeTableFromHomeTableWrapper(wrapper);
 
             // Save the file path to the registry.
             setHomeFilePath(file);
@@ -202,19 +163,15 @@ public class MainApp extends Application {
             alert.setHeaderText("Could not load data from file:\n" + file.getPath());
             alert.showAndWait();
         }
+
     }
 
-    public void savePersonDataToFile(File file) {
+    public void savePersonDataToFile(File file, HomeTableWrapper wrapper) {
         try {
             JAXBContext context = JAXBContext
                     .newInstance(HomeTableWrapper.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-            // Wrapping our person data.
-            HomeTableWrapper wrapper = new HomeTableWrapper();
-            wrapper.setFormattedAddress(formattedAddress.getText());
-            wrapper.setHomes(homeTable.getItems());
 
             // Marshalling and saving XML to the file.
             m.marshal(wrapper, file);
@@ -253,5 +210,17 @@ public class MainApp extends Application {
             // Update the stage title.
             primaryStage.setTitle(TITLE_APP);
         }
+    }
+
+    public void clearData() {
+        realStateOverviewController.clearData();
+    }
+
+    public HomeTableWrapper loadWrapperFromTable() {
+        return realStateOverviewController.getHomeTableWrapperFromHomeTable();
+    }
+
+    public TableView<HomeTable> getHomeTable() {
+        return realStateOverviewController.getHomeTable();
     }
 }

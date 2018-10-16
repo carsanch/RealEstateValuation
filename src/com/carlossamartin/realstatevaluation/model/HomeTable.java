@@ -2,13 +2,12 @@ package com.carlossamartin.realstatevaluation.model;
 
 import com.carlossamartin.realstatevaluation.model.idealista.AgencyEnum;
 import com.carlossamartin.realstatevaluation.model.idealista.Home;
+import com.carlossamartin.realstatevaluation.utils.Constants;
 import javafx.beans.property.*;
 
 import java.math.BigDecimal;
 
 public class HomeTable {
-
-    private static final int SCALE = 2;
 
     private BooleanProperty enabled;
     private IntegerProperty id;
@@ -73,6 +72,9 @@ public class HomeTable {
         this.qualityFactor = new SimpleDoubleProperty();
         this.other = new SimpleStringProperty();
         this.otherFactor = new SimpleDoubleProperty();
+
+        this.factorProduct = new SimpleDoubleProperty();
+        this.standardPrice = new SimpleDoubleProperty();
     }
 
     public HomeTable(Integer id, Home home) {
@@ -117,18 +119,18 @@ public class HomeTable {
     }
 
     public void calculateSizePrice() {
-       this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() /
-               this.size.doubleValue()).setScale(SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
+        this.priceSize = new SimpleDoubleProperty(new BigDecimal(this.price.doubleValue() /
+                this.size.doubleValue()).setScale(Constants.SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     public void calculateFactorProduct() {
         this.factorProduct = new SimpleDoubleProperty(new BigDecimal(this.sizeFactor.doubleValue() * this.distanceFactor.doubleValue() * this.agencyFactor.doubleValue()
-                * this.ageFactor.doubleValue() *this.qualityFactor.doubleValue() * this.otherFactor.doubleValue()).setScale(SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
+                * this.ageFactor.doubleValue() * this.qualityFactor.doubleValue() * this.otherFactor.doubleValue()).setScale(Constants.SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     public void calculateStandardPrice() {
         this.standardPrice = new SimpleDoubleProperty(new BigDecimal(this.factorProduct.doubleValue()
-                * this.priceSize.doubleValue()).setScale(SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
+                * this.priceSize.doubleValue()).setScale(Constants.SCALE, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     public boolean isEnabled() {
