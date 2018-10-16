@@ -575,9 +575,11 @@ public class RealStateOverviewController {
 
         homeTable.getItems().clear();
         searchButton.setText("Search");
+        searchField.setText("");
         formattedAddress.setText("");
 
         sizeField.setText("");
+        distanceField.setText("");
 
         standardAvgField1.setText("");
         standardAvgField2.setText("");
@@ -594,5 +596,8 @@ public class RealStateOverviewController {
         date1Label.setText(df.format(date));
 
         date2TextField.setText("");
+
+        writtenNumber1Field.setText("");
+        writtenNumber2Field.setText("");
     }
 }
