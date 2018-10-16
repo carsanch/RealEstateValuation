@@ -530,7 +530,9 @@ public class RealStateOverviewController {
             summaryFactorField.setText(wrapper.getFactorBeforeDate().toString());
         }
 
+        searchField.setText(wrapper.getFormattedAddress());
         formattedAddress.setText(wrapper.getFormattedAddress());
+        
         homeTable.getItems().clear();
         homeTable.getItems().addAll(wrapper.getHomes());
     }
