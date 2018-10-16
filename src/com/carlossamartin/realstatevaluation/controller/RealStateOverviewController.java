@@ -13,6 +13,7 @@ import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRestC
 import com.carlossamartin.realstatevaluation.restclient.idealista.ParsingAgencyClient;
 import com.carlossamartin.realstatevaluation.utils.Constants;
 import com.carlossamartin.realstatevaluation.utils.TableViewUtils;
+import com.carlossamartin.realstatevaluation.utils.numberTranslator.SpanishNumber;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -122,6 +123,11 @@ public class RealStateOverviewController {
     private TextField standardFinalPriceField1;
     @FXML
     private TextField standardFinalPriceField2;
+
+    @FXML
+    private TextField writtenNumber1Field;
+    @FXML
+    private TextField writtenNumber2Field;
 
     private IdealistaRestClient idealistaClient;
     private GeocodingRestClient geocodingClient;
@@ -483,6 +489,10 @@ public class RealStateOverviewController {
 
             BigDecimal finalPrice = new BigDecimal(avg1 * size1).setScale(2, BigDecimal.ROUND_HALF_UP);
             standardFinalPriceField1.setText(finalPrice.toString());
+
+            int finalPriceInt = finalPrice.intValue();
+            SpanishNumber p = new SpanishNumber(Long.valueOf(finalPriceInt));
+            writtenNumber1Field.setText(p.toString().toUpperCase());
         }
     }
 
@@ -498,6 +508,10 @@ public class RealStateOverviewController {
 
             BigDecimal finalPrice = new BigDecimal(avg2 * size2 * factor).setScale(2, BigDecimal.ROUND_HALF_UP);
             standardFinalPriceField2.setText(finalPrice.toString());
+
+            int finalPriceInt = finalPrice.intValue();
+            SpanishNumber p = new SpanishNumber(Long.valueOf(finalPriceInt));
+            writtenNumber2Field.setText(p.toString().toUpperCase());
         }
     }
 
@@ -532,7 +546,7 @@ public class RealStateOverviewController {
 
         searchField.setText(wrapper.getFormattedAddress());
         formattedAddress.setText(wrapper.getFormattedAddress());
-        
+
         homeTable.getItems().clear();
         homeTable.getItems().addAll(wrapper.getHomes());
     }
