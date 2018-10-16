@@ -487,7 +487,7 @@ public class RealStateOverviewController {
             Double avg1 = Double.parseDouble(avgText);
             Double size1 = Double.parseDouble(sizeText);
 
-            BigDecimal finalPrice = new BigDecimal(avg1 * size1).setScale(2, BigDecimal.ROUND_HALF_UP);
+            BigDecimal finalPrice = new BigDecimal(avg1 * size1).setScale(Constants.SCALE, BigDecimal.ROUND_HALF_UP);
             standardFinalPriceField1.setText(finalPrice.toString());
 
             int finalPriceInt = finalPrice.intValue();
@@ -506,7 +506,7 @@ public class RealStateOverviewController {
             Double size2 = Double.parseDouble(sizeText);
             Double factor = Double.parseDouble(factorText);
 
-            BigDecimal finalPrice = new BigDecimal(avg2 * size2 * factor).setScale(2, BigDecimal.ROUND_HALF_UP);
+            BigDecimal finalPrice = new BigDecimal(avg2 * size2 * factor).setScale(Constants.SCALE, BigDecimal.ROUND_HALF_UP);
             standardFinalPriceField2.setText(finalPrice.toString());
 
             int finalPriceInt = finalPrice.intValue();
