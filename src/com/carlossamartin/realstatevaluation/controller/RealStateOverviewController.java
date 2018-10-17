@@ -200,6 +200,12 @@ public class RealStateOverviewController {
         summaryFactorField.textProperty().addListener((observable, oldValue, newValue) -> {
             calculateFinalPrice2();
         });
+        standardFinalPriceField1.textProperty().addListener((observable, oldValue, newValue) -> {
+            calculateWrittenNumber1();
+        });
+        standardFinalPriceField2.textProperty().addListener((observable, oldValue, newValue) -> {
+            calculateWrittenNumber2();
+        });
 
         ContextMenu menu = new ContextMenu();
         menu.getItems().add(copyItemMenu);
@@ -496,10 +502,6 @@ public class RealStateOverviewController {
 
             BigDecimal finalPrice = new BigDecimal(avg1 * size1).setScale(Constants.SCALE, BigDecimal.ROUND_HALF_UP);
             standardFinalPriceField1.setText(finalPrice.toString());
-
-            int finalPriceInt = finalPrice.intValue();
-            SpanishNumber p = new SpanishNumber(Long.valueOf(finalPriceInt));
-            writtenNumber1Field.setText(p.toString().toUpperCase());
         }
     }
 
@@ -515,11 +517,24 @@ public class RealStateOverviewController {
 
             BigDecimal finalPrice = new BigDecimal(avg2 * size2 * factor).setScale(Constants.SCALE, BigDecimal.ROUND_HALF_UP);
             standardFinalPriceField2.setText(finalPrice.toString());
-
-            int finalPriceInt = finalPrice.intValue();
-            SpanishNumber p = new SpanishNumber(Long.valueOf(finalPriceInt));
-            writtenNumber2Field.setText(p.toString().toUpperCase());
         }
+    }
+
+    private void calculateWrittenNumber1() {
+        BigDecimal finalPrice = new BigDecimal(standardFinalPriceField1.getText());
+        int finalPriceInt = finalPrice.intValue();
+        writtenNumber1Field.setText(calculateWrittenNumber(finalPriceInt));
+    }
+
+    private void calculateWrittenNumber2() {
+        BigDecimal finalPrice = new BigDecimal(standardFinalPriceField2.getText());
+        int finalPriceInt = finalPrice.intValue();
+        writtenNumber2Field.setText(calculateWrittenNumber(finalPriceInt));
+    }
+
+    private String calculateWrittenNumber(int finalPriceInt) {
+        SpanishNumber p = new SpanishNumber(Long.valueOf(finalPriceInt));
+        return p.toString().toUpperCase();
     }
 
     /**
