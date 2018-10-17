@@ -12,12 +12,15 @@ import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRespo
 import com.carlossamartin.realstatevaluation.restclient.idealista.IdealistaRestClient;
 import com.carlossamartin.realstatevaluation.restclient.idealista.ParsingAgencyClient;
 import com.carlossamartin.realstatevaluation.utils.Constants;
+import com.carlossamartin.realstatevaluation.utils.ProgressForm;
 import com.carlossamartin.realstatevaluation.utils.TableViewUtils;
 import com.carlossamartin.realstatevaluation.utils.numberTranslator.SpanishNumber;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -142,8 +145,6 @@ public class RealStateOverviewController {
 
     private ObservableList<HomeTable> data;
     private IdealistaResponse idealistaResponse;
-    private String coordinates;
-    private String distance;
 
     private Date date;
     private DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -376,45 +377,69 @@ public class RealStateOverviewController {
 
     @FXML
     private void handleSearch() {
-        //NEW SEARCH
-        if (this.newSearch) {
-            String address = searchField.getText();
-            Place place = geocodingClient.getPlace(address);
+        ProgressForm pForm = new ProgressForm();
+
+        Task<Void> agencyTask = new Task<Void>() {
+            @Override
+            public Void call() throws InterruptedException {
+                calculateAgencyAndFactor();
+                return null;
+            }
+        };
+
+        agencyTask.setOnSucceeded(event -> {
+            pForm.getDialogStage().close();
+            searchButton.setDisable(false);
+        });
+
+        Task<Place> searchTask = new Task<Place>() {
+            @Override
+            public Place call() throws InterruptedException {
+
+                String address = searchField.getText();
+                Place place = geocodingClient.getPlace(address);
+
+                Location location = place.getGeometry().getLocation();
+
+                String coordinates = String.format("%s,%s", location.getLat(), location.getLng());
+                String distance = "".equals(distanceField.getText()) ? distanceField.getPromptText() : distanceField.getText();
+
+                idealistaResponse = idealistaClient.getSamples(coordinates, distance, 0);
+
+                return place;
+            }
+        };
+
+        searchTask.setOnSucceeded((WorkerStateEvent event) -> {
+            Place place = searchTask.getValue();
+
             formattedAddress.setText(place.getFormattedAddress());
 
-            Location location = place.getGeometry().getLocation();
-            coordinates = String.format("%s,%s", location.getLat(), location.getLng());
-            distance = "".equals(distanceField.getText()) ? distanceField.getPromptText() : distanceField.getText();
-
-            idealistaResponse = idealistaClient.getSamples(coordinates, distance, 0);
-
-            if (idealistaResponse.getTotalPages() > 1) {
-                searchButton.setText("More...");
-                this.newSearch = false;
-            }
-        }
-        //MORE RESULTS
-        else {
-            Integer page = idealistaResponse.getActualPage();
-            if (page <= idealistaResponse.getTotalPages()) {
-                idealistaResponse = idealistaClient.getSamples(coordinates, distance, ++page);
-            } else {
-                searchButton.setDisable(true);
-                this.newSearch = true;
-            }
-        }
-
-        //PROCESS
-        if (null != idealistaResponse && idealistaResponse.getTotal() > 0) {
-            int idCounter = homeTable.getItems().size();
-            for (Home item : idealistaResponse.getElementList()) {
-                if (item.getShowAddress()) {
-                    data.add(new HomeTable(++idCounter, item));
+            //PROCESS
+            if (null != idealistaResponse && idealistaResponse.getTotal() > 0) {
+                int idCounter = homeTable.getItems().size();
+                for (Home item : idealistaResponse.getElementList()) {
+                    if (item.getShowAddress()) {
+                        data.add(new HomeTable(++idCounter, item));
+                    }
                 }
-            }
 
-            calculateAgencyAndFactor();
-        }
+                pForm.activateProgressBar(agencyTask);
+                Thread thread = new Thread(agencyTask);
+                thread.start();
+            }
+            //pForm.getDialogStage().close();
+            //searchButton.setDisable(false);
+        });
+
+
+        pForm.activateProgressBar(searchTask);
+
+        searchButton.setDisable(true);
+        pForm.getDialogStage().show();
+
+        Thread thread = new Thread(searchTask);
+        thread.start();
     }
 
     private void calculateAgencyAndFactor() {
@@ -422,12 +447,7 @@ public class RealStateOverviewController {
         Double privateFactor = new Double(pref.get("privateFactor", null).replace(",", "."));
         Double professionalFactor = new Double(pref.get("professionalFactor", null).replace(",", "."));
 
-        Thread agencyFactorThread = new Thread() {
-            public void run() {
-                getAgencyAndFactor(privateFactor, professionalFactor);
-            }
-        };
-        agencyFactorThread.start();
+        getAgencyAndFactor(privateFactor, professionalFactor);
     }
 
     private void getAgencyAndFactor(Double privateFactor, Double professionalFactor) {
