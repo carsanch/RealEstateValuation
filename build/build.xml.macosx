@@ -21,114 +21,114 @@
 		<mkdir dir="externalLibs" />
 	
 		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jersey-json-1.19.4.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="activation-1.1.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
 				<filename name="jettison-1.1-javadoc.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jaxb-api-2.2.2-javadoc.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jackson-jaxrs-1.9.2.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jsoup-1.11.3-javadoc.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jsr311-api-1.1.1-javadoc.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jaxb-impl-2.2.3-1.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jackson-core-asl-1.9.2.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="stax-api-1.0-2.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jersey-client-1.19.4.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jersey-client-1.19.4-javadoc.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jersey-json-1.19.4-javadoc.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jersey-core-1.19.4-javadoc.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jsr311-api-1.1.1.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jackson-mapper-asl-1.9.2.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jackson-xc-1.9.2.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
-				<filename name="jersey-core-1.19.4.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
 				<filename name="jettison-1.1.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jackson-xc-1.9.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jersey-json-1.19.4.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jsr311-api-1.1.1-javadoc.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jersey-core-1.19.4.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jackson-mapper-asl-1.9.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
 				<filename name="jaxb-api-2.2.2.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation\lib">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="activation-1.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jackson-jaxrs-1.9.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jersey-core-1.19.4-javadoc.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jaxb-impl-2.2.3-1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jersey-client-1.19.4-javadoc.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jackson-core-asl-1.9.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jsr311-api-1.1.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jersey-client-1.19.4.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jersey-json-1.19.4-javadoc.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
 				<filename name="jsoup-1.11.3.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="stax-api-1.0-2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jsoup-1.11.3-javadoc.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation/lib">
+				<filename name="jaxb-api-2.2.2-javadoc.jar"/>
 			</fileset>
 		</copy>
 	
 		<mkdir dir="project" />
 		<copy todir="project">
-			<fileset dir="C:\Users\Carlos\eclipse-workspace\RealStateValuation">
+			<fileset dir="/Users/carlos/git/carsanch/RealStateValuation">
 				<include name="src/**" />
 			</fileset>
 		</copy>
@@ -177,7 +177,7 @@
 			</fileset>
 		</copy>
 	
-		<javac includeantruntime="false" source="1.8" target="1.8" srcdir="build/src" destdir="build/classes" encoding="Cp1252">
+		<javac includeantruntime="false" source="1.8" target="1.8" srcdir="build/src" destdir="build/classes" encoding="UTF-8">
 			<classpath>
 				<fileset dir="build/libs">
 					<include name="*"/>
@@ -217,7 +217,7 @@
 		<fx:application id="fxApplication"
 			name="RealStateValuation"
 			mainClass="com.carlossamartin.realstatevaluation.MainApp"
-			version="1.0"
+			version="1.1"
 		/>
 	
 		<mkdir dir="build/classes/META-INF" />
@@ -247,7 +247,7 @@
 			includeDT="false"
 			offlineAllowed="true"
 			outdir="${basedir}/deploy"
-			outfile="RealStateValuation" nativeBundles="exe"
+			outfile="RealStateValuation" nativeBundles="dmg"
 			updatemode="background" >
 	
 			<fx:platform basedir="${java.home}"/>
