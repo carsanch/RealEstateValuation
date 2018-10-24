@@ -41,7 +41,7 @@ public class MainApp extends Application {
         this.primaryStage.setTitle(TITLE_APP);
 
         //Set Icon
-        this.primaryStage.getIcons().add(new Image("file:resources/images/blue-home-icon.png"));
+        this.primaryStage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/images/blue-home-icon.png")));
 
         preferences = Preferences.userNodeForPackage(MainApp.class);
 
@@ -56,7 +56,7 @@ public class MainApp extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
@@ -81,7 +81,7 @@ public class MainApp extends Application {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/RealStateOverview.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/RealStateOverview.fxml"));
             AnchorPane realStateOverview = (AnchorPane) loader.load();
 
             // Set person overview into the center of root layout.
@@ -109,7 +109,7 @@ public class MainApp extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/SettingsView.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/SettingsView.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
             // Create the dialog Stage.
