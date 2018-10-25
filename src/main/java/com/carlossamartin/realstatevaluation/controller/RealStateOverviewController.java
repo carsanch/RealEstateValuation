@@ -154,7 +154,7 @@ public class RealStateOverviewController {
 
     @FXML
     public void initialize() {
-        icoImageView.setImage(new Image("file:resources/images/blue-home-icon.png"));
+        icoImageView.setImage(new Image(MainApp.class.getResourceAsStream("/images/blue-home-icon.png")));
 
         date = Calendar.getInstance().getTime();
         date1Label.setText(df.format(date));
