@@ -148,7 +148,6 @@ public class RealStateOverviewController {
 
     private Date date;
     private DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-    private boolean newSearch = true;
 
     public RealStateOverviewController() {
     }
@@ -389,7 +388,7 @@ public class RealStateOverviewController {
 
         agencyTask.setOnSucceeded(event -> {
             pForm.getDialogStage().close();
-            searchButton.setDisable(false);
+            //searchButton.setDisable(false);
         });
 
         Task<Place> searchTask = new Task<Place>() {
@@ -576,6 +575,8 @@ public class RealStateOverviewController {
 
     public void setHomeTableFromHomeTableWrapper(HomeTableWrapper wrapper) {
 
+        searchButton.setDisable(true);
+
         distanceField.setText(wrapper.getDistance());
         sizeField.setText(wrapper.getSize());
 
@@ -613,7 +614,7 @@ public class RealStateOverviewController {
     }
 
     public void clearData() {
-        newSearch = true;
+        searchButton.setDisable(false);
 
         homeTable.getItems().clear();
         searchButton.setText("Search");
