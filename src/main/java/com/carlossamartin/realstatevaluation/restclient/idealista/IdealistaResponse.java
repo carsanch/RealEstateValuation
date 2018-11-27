@@ -1,7 +1,7 @@
 package com.carlossamartin.realstatevaluation.restclient.idealista;
 
 import com.carlossamartin.realstatevaluation.model.idealista.Home;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 

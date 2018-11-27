@@ -2,15 +2,12 @@ package com.carlossamartin.realstatevaluation.restclient.google;
 
 import com.carlossamartin.realstatevaluation.MainApp;
 import com.carlossamartin.realstatevaluation.model.google.Place;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import java.util.prefs.Preferences;
 
 public class GeocodingRestClient {
@@ -25,28 +22,22 @@ public class GeocodingRestClient {
         preferences = Preferences.userNodeForPackage(MainApp.class);
         String googleApiKey = preferences.get("googleApiKey", null);
 
-        ClientConfig clientConfig = new DefaultClientConfig();
-        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-        Client client = Client.create(clientConfig);
-
-        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
-
-        params.add("address", address);
-        params.add("key", googleApiKey);
 
         String url = "TEST".equals(googleApiKey) ? GOOGLE_API_URL_TEST : GOOGLE_API_URL;
-        WebResource webResource;
-        webResource= client.resource(url).queryParams(params);
 
-        ClientResponse response = webResource.type("application/json")
-                .get(ClientResponse.class);
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        ResteasyWebTarget target = client.target(UriBuilder.fromPath(url));
+        GeocodingClient proxy = target.proxy(GeocodingClient.class);
+
+        Response response = proxy.getGeocoding(address,googleApiKey);
+
 
         if (response.getStatus() != 200) {
             throw new RuntimeException("Failed : HTTP error code : "
                     + response.getStatus());
         }
 
-        GeocodingResponse geoResponse = response.getEntity(GeocodingResponse.class);
+        GeocodingResponse geoResponse = response.readEntity(GeocodingResponse.class);
         return geoResponse.getPlaces().get(0);
     }
 
@@ -54,8 +45,8 @@ public class GeocodingRestClient {
     static void getSamplesTest()
     {
         GeocodingRestClient client = new GeocodingRestClient();
-        Place out = client.getPlace("Calle aguadulce 25, Las palmas");
-        System.out.println(out);
+        Place out = client.getPlace("Calle Toledo 1, Madrid");
+        System.out.println(out.getFormattedAddress());
     }
 
     public static void main(String[] args) {

@@ -1,14 +1,17 @@
 package com.carlossamartin.realstatevaluation.restclient.idealista;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
+
+import com.carlossamartin.realstatevaluation.MainApp;
+import com.carlossamartin.realstatevaluation.restclient.google.GeocodingClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import java.util.Base64;
+import java.util.prefs.Preferences;
 
 public class IdealistaCredential {
 
@@ -29,29 +32,35 @@ public class IdealistaCredential {
 
     public static void renewToken(String ideApiKey, String ideSecret)
     {
-        ClientConfig clientConfig = new DefaultClientConfig();
-        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-        Client client = Client.create(clientConfig);
-
         String url = "TEST".equals(ideApiKey) ?TOKEN_IDEALISTA_URL_TEST: TOKEN_IDEALISTA_URL;
-        WebResource webResource;
-        webResource= client.resource(url).queryParam("grant_type","client_credentials");
 
-        ClientResponse response = webResource.type("application/json")
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        ResteasyWebTarget target = client.target(UriBuilder.fromPath(url))
+                .queryParam("grant_type", "client_credentials");
+
+        Response response = target.request()
                 .header(HttpHeaders.AUTHORIZATION, String.format("Basic %s", getBasicCredentials(ideApiKey, ideSecret)))
-                .post(ClientResponse.class);
+                .post(null);
 
         if (response.getStatus() != 200) {
             throw new RuntimeException("Failed : HTTP error code : "
                     + response.getStatus());
         }
 
-        IdealistaCredentialResponse credentialsResponse = response.getEntity(IdealistaCredentialResponse.class);
+        IdealistaCredentialResponse credentialsResponse = response.readEntity(IdealistaCredentialResponse.class);
         token = credentialsResponse.getAccessToken();
     }
 
     private static String getBasicCredentials(String ideApiKey, String ideSecret) {
         String keySecret = String.format("%s:%s", ideApiKey, ideSecret);
         return new String(Base64.getEncoder().encode(keySecret.getBytes()));
+    }
+
+    public static void main(String[] args) {
+        Preferences preferences = Preferences.userNodeForPackage(MainApp.class);
+        
+        String ideApiKey = preferences.get("ideApiKey", null);
+        String ideSecret = preferences.get("ideSecret", null);
+        renewToken(ideApiKey, ideSecret);
     }
 }

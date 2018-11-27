@@ -1,7 +1,7 @@
 package com.carlossamartin.realstatevaluation.restclient.google;
 
 import com.carlossamartin.realstatevaluation.model.google.Place;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
