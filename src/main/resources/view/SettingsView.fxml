@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <!--
-  ~ Real State Valuation Project
+  ~ Real Estate Valuation Project
   ~
   ~ Copyright © 2018 Carlos Sánchez Martín (carlos.samartin@gmail.com)
   ~
@@ -28,7 +28,7 @@
   ~ limitations under the License.
   -->
 
-<AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carlossamartin.realstatevaluation.controller.SettingsViewController">
+<AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carlossamartin.realestatevaluation.controller.SettingsViewController">
    <children>
       <GridPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>

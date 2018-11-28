@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <!--
-  ~ Real State Valuation Project
+  ~ Real Estate Valuation Project
   ~
   ~ Copyright © 2018 Carlos Sánchez Martín (carlos.samartin@gmail.com)
   ~
@@ -24,7 +24,7 @@
   ~ limitations under the License.
   -->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carlossamartin.realstatevaluation.controller.RootLayoutController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carlossamartin.realestatevaluation.controller.RootLayoutController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
