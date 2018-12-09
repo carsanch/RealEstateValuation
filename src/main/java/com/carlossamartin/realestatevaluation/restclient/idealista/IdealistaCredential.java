@@ -72,12 +72,4 @@ public class IdealistaCredential {
         String keySecret = String.format("%s:%s", ideApiKey, ideSecret);
         return new String(Base64.getEncoder().encode(keySecret.getBytes()));
     }
-
-    public static void main(String[] args) {
-        Preferences preferences = Preferences.userNodeForPackage(MainApp.class);
-        
-        String ideApiKey = preferences.get("ideApiKey", null);
-        String ideSecret = preferences.get("ideSecret", null);
-        renewToken(ideApiKey, ideSecret);
-    }
 }

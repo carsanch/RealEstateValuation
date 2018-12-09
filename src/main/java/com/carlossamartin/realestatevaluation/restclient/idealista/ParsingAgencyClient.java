@@ -29,7 +29,7 @@ public class ParsingAgencyClient {
     private static final String PROFESSIONAL_IDEALISTA_FIELD = "Profesional";
     private static final String PRIVATE_IDEALISTA_FIELD = "Particular";
 
-    Document doc;
+    private Document doc;
 
     public ParsingAgencyClient() {
     }
@@ -63,11 +63,5 @@ public class ParsingAgencyClient {
 
 
         return result;
-    }
-
-    public static void main(String[] args) {
-        ParsingAgencyClient client = new ParsingAgencyClient();
-        System.out.println(client.getProfessional("https://www.idealista.com/inmueble/2058667/"));
-
     }
 }

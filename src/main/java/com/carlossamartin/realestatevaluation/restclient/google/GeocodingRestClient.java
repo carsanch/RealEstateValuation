@@ -33,13 +33,10 @@ public class GeocodingRestClient {
     private static final String GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
     private static final String GOOGLE_API_URL_TEST ="https://2c9b0f46-162b-4d95-9d1e-fdc5cd4c91a3.mock.pstmn.io/maps/api/geocode/json";
 
-    private static Preferences preferences;
-
     public Place getPlace(String address)
     {
-        preferences = Preferences.userNodeForPackage(MainApp.class);
+        Preferences preferences = Preferences.userNodeForPackage(MainApp.class);
         String googleApiKey = preferences.get("googleApiKey", null);
-
 
         String url = "TEST".equals(googleApiKey) ? GOOGLE_API_URL_TEST : GOOGLE_API_URL;
 
@@ -57,17 +54,5 @@ public class GeocodingRestClient {
 
         GeocodingResponse geoResponse = response.readEntity(GeocodingResponse.class);
         return geoResponse.getPlaces().get(0);
-    }
-
-    //TODO
-    static void getSamplesTest()
-    {
-        GeocodingRestClient client = new GeocodingRestClient();
-        Place out = client.getPlace("Calle Toledo 1, Madrid");
-        System.out.println(out.getFormattedAddress());
-    }
-
-    public static void main(String[] args) {
-        getSamplesTest();
     }
 }

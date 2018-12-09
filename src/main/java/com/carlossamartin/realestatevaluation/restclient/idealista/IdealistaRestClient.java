@@ -35,11 +35,9 @@ public class IdealistaRestClient {
     private static final String API_IDEALISTA_URL = "https://api.idealista.com/3.5/es/search";
     private static final String API_IDEALISTA_URL_TEST = "https://2c9b0f46-162b-4d95-9d1e-fdc5cd4c91a3.mock.pstmn.io/3.5/es/search";
 
-    private static Preferences preferences;
-
     public IdealistaResponse getSamples(String center, String distance, Integer page)
     {
-        preferences = Preferences.userNodeForPackage(MainApp.class);
+        Preferences preferences = Preferences.userNodeForPackage(MainApp.class);
         String ideApiKey = preferences.get("ideApiKey", null);
         String ideSecret = preferences.get("ideSecret", null);
 
@@ -80,17 +78,5 @@ public class IdealistaRestClient {
 
         IdealistaResponse idealistaResponse = response.readEntity(IdealistaResponse.class);
         return idealistaResponse;
-    }
-
-    //TODO
-    static void getSamplesTest()
-    {
-        IdealistaRestClient client = new IdealistaRestClient();
-        IdealistaResponse out = client.getSamples("28.114451,-15.421717", "150", 0);
-        System.out.println(out.getElementList().get(0).getAddress());
-    }
-
-    public static void main(String[] args) {
-        getSamplesTest();
     }
 }
